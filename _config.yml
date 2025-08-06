@@ -1,0 +1,11 @@
+title: Meu Site Analytics
+description: Site para estudar web analytics
+theme: minima
+
+# Google Analytics
+google_analytics: # Vamos configurar depois
+
+# Plugins
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
