@@ -1,11 +1,183 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <title>Eric R Souza</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Eric Ramos Souza • Analista de BI</title>
+<style>
+  :root{
+    --maxw:1100px;
+    --gap:28px;
+    --ink:#0a0a0a;
+    --muted:#666;
+    --brand:#0e7490;
+    --btn:#2e2e2e;
+    --btn-hover:#111;
+  }
+  *{box-sizing:border-box;margin:0}
+  body{font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Arial,sans-serif;color:var(--ink);background:#fff}
+  a{color:inherit;text-decoration:none}
+  img{max-width:100%;display:block}
+
+  /* Top bar */
+  .topbar{
+    position:fixed;inset:0 0 auto 0;height:52px;display:flex;align-items:center;
+    padding:0 20px;z-index:10;color:#fff
+  }
+  .brand{font-weight:700;font-size:20px;letter-spacing:.2px}
+  nav{margin-left:auto;display:flex;gap:18px}
+  nav a{opacity:.85}
+  nav a:hover,nav a.active{opacity:1;text-decoration:underline}
+
+  /* Hero */
+  .hero{
+    position:relative;height:330px;color:#fff;display:grid;place-items:center;text-align:center;
+    background:
+      linear-gradient(180deg,rgba(2,12,22,.85),rgba(2,12,22,.85)),
+      radial-gradient(1200px 330px at 20% 0%,rgba(0,160,255,.28),transparent 60%),
+      radial-gradient(1000px 360px at 90% 30%,rgba(0,200,180,.18),transparent 70%),
+      linear-gradient(135deg,#0b2a3c 0%,#0b1f2e 45%,#08141f 100%);
+    overflow:hidden
+  }
+  .hero::after{
+    /* linhas sutis “tecnologia” */
+    content:"";position:absolute;inset:0;opacity:.17;pointer-events:none;
+    background:
+      repeating-linear-gradient( to right, transparent 0 96px, rgba(255,255,255,.12) 96px 97px),
+      repeating-linear-gradient( to bottom, transparent 0 78px, rgba(255,255,255,.08) 78px 79px);
+  }
+  .hero h1{font-size:48px;font-weight:800;letter-spacing:.3px}
+  .hero p{font-size:18px;opacity:.95;margin-top:8px}
+
+  /* Main */
+  .wrap{max-width:var(--maxw);margin:-40px auto 80px;position:relative;padding:0 20px}
+  .card{
+    background:#fff;border-radius:2px;box-shadow:0 8px 28px rgba(0,0,0,.12);
+    padding:38px 36px
+  }
+  .about{max-width:760px;margin:0 auto;color:var(--muted)}
+  .about p{margin:0 0 14px}
+  .about p:last-child{margin-bottom:0}
+
+  .grid{margin-top:34px;display:grid;grid-template-columns:repeat(2,1fr);gap:var(--gap)}
+  .tile{
+    display:grid;grid-template-columns:120px 1fr;gap:18px;align-items:center;
+    padding:18px;border:1px solid #eee;border-radius:6px
+  }
+  .tile h3{font-size:18px;margin-bottom:6px}
+  .tile p{color:var(--muted);font-size:14px;margin-bottom:12px}
+  .btn{
+    display:inline-block;background:var(--btn);color:#fff;padding:10px 14px;border-radius:4px;
+    font-size:14px
+  }
+  .btn:hover{background:var(--btn-hover)}
+
+  /* Big tiles (LinkedIn/GitHub) */
+  .grid-logos{margin-top:var(--gap);display:grid;grid-template-columns:repeat(2,1fr);gap:var(--gap)}
+  .logoBox{
+    padding:22px;border:1px solid #eee;border-radius:6px;display:grid;gap:12px;align-items:center;justify-items:center
+  }
+  .logoBox h3{font-size:18px}
+  .muted{color:var(--muted);font-size:14px}
+
+  /* Footer space */
+  footer{height:40px}
+
+  /* Responsive */
+  @media (max-width:900px){
+    .hero h1{font-size:38px}
+    .grid,.grid-logos{grid-template-columns:1fr}
+    .tile{grid-template-columns:90px 1fr}
+  }
+</style>
 </head>
 <body>
-  <h1>Meu site no GitHub Pages</h1>
-  <p>Em construção...</p>
+  <!-- Header over hero -->
+  <div class="topbar">
+    <div class="brand">Eric Ramos</div>
+    <nav>
+      <a href="#" class="active">Home</a>
+      <a href="#projetos">Projetos</a>
+      <a href="#experiencias">Experiências</a>
+    </nav>
+  </div>
+
+  <!-- Hero -->
+  <header class="hero" role="banner">
+    <div>
+      <h1>Eric Ramos Souza</h1>
+      <p>Analista de Business Intelligence</p>
+    </div>
+  </header>
+
+  <!-- Main -->
+  <main class="wrap">
+    <section class="card">
+      <div class="about">
+        <p>Olá! Meu nome é Eric e sou um profissional da área de análise de dados com ampla experiência em gerenciamento de projetos e resolução de problemas. Tenho conhecimento e experiência em linguagens de programação como Python, R e SQL, em Bancos de Dados e Data Lakes como Databricks, PostgreSQL e Dremio Cloud e ferramentas de visualização de dados como Power BI, Tableau e Qlik View.</p>
+        <p>Ao longo de minha carreira, tive a oportunidade de trabalhar em projetos desafiadores que me permitiram desenvolver habilidades analíticas sólidas e a capacidade de transformar dados em insights valiosos para tomada de decisão. Fui responsável por liderar equipes internas e também colaborar com equipes de diferentes empresas, nesta experiência tive a oportunidade de trabalhar com equipes de desenvolvimento de software, marketing, comercial, financeira e engenharia para entregar soluções de dados eficazes e escaláveis.</p>
+        <p>Tenho experiência em análise de dados do financeiro, comercial, pós-venda, comportamento de usuários, análise de marketing, tráfego pago e monitoramento de KPIs de negócio. Além disso, possuo habilidades de comunicação e apresentação para traduzir resultados de análise de dados em insights acionáveis para líderes empresariais e outras partes interessadas.</p>
+        <p>Estou animado para continuar desenvolvendo minhas habilidades e aplicá-las em um ambiente de trabalho desafiador em análise de dados.</p>
+      </div>
+
+      <!-- Small feature cards -->
+      <div class="grid" id="projetos">
+        <article class="tile">
+          <img alt="Gráfico" src="https://images.unsplash.com/photo-1517148815978-75f6acaaf32c?w=400&auto=format&fit=crop&q=60">
+          <div>
+            <h3>Projetos</h3>
+            <p>Conheça meus projetos de análise de dados.</p>
+            <a class="btn" href="#projetos">Ir para Projetos</a>
+          </div>
+        </article>
+
+        <article class="tile" id="experiencias">
+          <img alt="Profissional" src="https://images.unsplash.com/photo-1521791136064-7986c2920216?w=400&auto=format&fit=crop&q=60">
+          <div>
+            <h3>Experiência Profissional</h3>
+            <p>Confira minhas Experiências Profissionais.</p>
+            <a class="btn" href="#experiencias">Ver Experiências</a>
+          </div>
+        </article>
+      </div>
+
+      <!-- Logo tiles -->
+      <div class="grid-logos" style="margin-top:34px">
+        <div class="logoBox">
+          <img alt="LinkedIn" style="width:210px;height:auto" src="https://upload.wikimedia.org/wikipedia/commons/c/ca/LinkedIn_logo_initials.png">
+          <div style="text-align:center">
+            <h3>LinkedIn</h3>
+            <p class="muted">Confira meu currículo e minhas experiências profissionais.</p>
+            <a class="btn" href="https://www.linkedin.com/" target="_blank" rel="noopener">Ir para LinkedIn</a>
+          </div>
+        </div>
+
+        <div class="logoBox">
+          <img alt="GitHub" style="width:240px;height:auto" src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png">
+          <div style="text-align:center">
+            <h3>GitHub</h3>
+            <p class="muted">Confira meus códigos voltados a análise de dados.</p>
+            <a class="btn" href="https://github.com/" target="_blank" rel="noopener">Ir para GitHub</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer></footer>
+
+  <script>
+    // marca navegação ativa por seção
+    const links=[...document.querySelectorAll('nav a')];
+    function setActive(){
+      const y=window.scrollY;
+      const sec=[{id:"#",top:0},
+                 {id:"#projetos",top:document.getElementById('projetos').getBoundingClientRect().top+window.scrollY-120},
+                 {id:"#experiencias",top:document.getElementById('experiencias').getBoundingClientRect().top+window.scrollY-120}];
+      const current=sec.reverse().find(s=>y>=s.top)?.id || "#";
+      links.forEach(a=>a.classList.toggle('active',a.getAttribute('href')===current|| (current==="#" && a.getAttribute('href')==="#")));
+    }
+    setActive(); addEventListener('scroll',setActive,{passive:true});
+  </script>
 </body>
 </html>
