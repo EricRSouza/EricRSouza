@@ -3,181 +3,198 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Eric Ramos Souza • Analista de BI</title>
+<title>Eric Ramos Souza • Analytics & BI</title>
+<meta name="description" content="Portfólio profissional focado em dados.">
+<!-- Se este repositório é um *project page*, mantenha a base abaixo -->
+<base href="/EricRSouza/">
 <style>
   :root{
-    --maxw:1100px;
-    --gap:28px;
-    --ink:#0a0a0a;
-    --muted:#666;
-    --brand:#0e7490;
-    --btn:#2e2e2e;
-    --btn-hover:#111;
+    --bg:#071320; --bg-2:#0b1f33; --ink:#e6eef7; --muted:#9fb3c8;
+    --line:#123055; --card:#0e2744; --a:#1a75ff; --a-2:#114db3;
+    --maxw:1200px; --pad:clamp(14px,1.8vw,22px);
   }
   *{box-sizing:border-box;margin:0}
-  body{font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Arial,sans-serif;color:var(--ink);background:#fff}
+  html,body{height:100%}
+  body{background:var(--bg);color:var(--ink);font:clamp(15px,1.2vw,17px)/1.6 Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif}
+  img{max-width:100%;height:auto;display:block}
   a{color:inherit;text-decoration:none}
-  img{max-width:100%;display:block}
-
-  /* Top bar */
-  .topbar{
-    position:fixed;inset:0 0 auto 0;height:52px;display:flex;align-items:center;
-    padding:0 20px;z-index:10;color:#fff
-  }
-  .brand{font-weight:700;font-size:20px;letter-spacing:.2px}
-  nav{margin-left:auto;display:flex;gap:18px}
-  nav a{opacity:.85}
-  nav a:hover,nav a.active{opacity:1;text-decoration:underline}
+  .container{max-width:var(--maxw);margin:0 auto;padding:0 var(--pad)}
+  /* Header */
+  .top{position:sticky;top:0;z-index:50;background:linear-gradient(180deg,rgba(7,19,32,.92),rgba(7,19,32,.65));border-bottom:1px solid var(--line);backdrop-filter:blur(8px)}
+  .topbar{display:flex;align-items:center;gap:16px;min-height:64px}
+  .brand{font-weight:800;font-size:clamp(18px,2vw,22px)}
+  .nav{margin-left:auto;display:flex;gap:12px;align-items:center}
+  .nav a{padding:8px 10px;border-radius:10px;color:var(--muted)}
+  .nav a:hover,.nav a.active{color:var(--ink);background:#0d2541}
+  .burger{display:none;min-width:44px;min-height:44px;align-items:center;justify-content:center;border:1px solid var(--line);border-radius:10px;background:#0b213a}
+  .burger span{width:22px;height:2px;background:var(--ink);position:relative}
+  .burger span::before,.burger span::after{content:"";position:absolute;left:0;width:22px;height:2px;background:var(--ink)}
+  .burger span::before{top:-6px}.burger span::after{top:6px}
+  /* Mobile menu */
+  .drawer{display:none;flex-direction:column;gap:8px;padding:10px 0;border-top:1px solid var(--line)}
+  .drawer a{padding:10px;border-radius:8px;color:var(--muted)}
+  .drawer a:hover{background:#0d2541;color:var(--ink)}
 
   /* Hero */
-  .hero{
-    position:relative;height:330px;color:#fff;display:grid;place-items:center;text-align:center;
-    background:
-      linear-gradient(180deg,rgba(2,12,22,.85),rgba(2,12,22,.85)),
-      radial-gradient(1200px 330px at 20% 0%,rgba(0,160,255,.28),transparent 60%),
-      radial-gradient(1000px 360px at 90% 30%,rgba(0,200,180,.18),transparent 70%),
-      linear-gradient(135deg,#0b2a3c 0%,#0b1f2e 45%,#08141f 100%);
-    overflow:hidden
-  }
-  .hero::after{
-    /* linhas sutis “tecnologia” */
-    content:"";position:absolute;inset:0;opacity:.17;pointer-events:none;
-    background:
-      repeating-linear-gradient( to right, transparent 0 96px, rgba(255,255,255,.12) 96px 97px),
-      repeating-linear-gradient( to bottom, transparent 0 78px, rgba(255,255,255,.08) 78px 79px);
-  }
-  .hero h1{font-size:48px;font-weight:800;letter-spacing:.3px}
-  .hero p{font-size:18px;opacity:.95;margin-top:8px}
+  .hero{position:relative;padding:clamp(72px,12vw,140px) 0 clamp(36px,6vw,72px);
+      background:radial-gradient(1200px 360px at 10% -10%,rgba(58,160,255,.18),transparent 60%),
+                 radial-gradient(900px 360px at 90% 10%,rgba(0,209,255,.16),transparent 60%),
+                 linear-gradient(180deg,var(--bg-2),var(--bg));overflow:hidden}
+  .hero::after{content:"";position:absolute;inset:0;opacity:.25;pointer-events:none;
+      background:repeating-linear-gradient(to right,transparent 0 96px,rgba(255,255,255,.06) 96px 97px),
+                 repeating-linear-gradient(to bottom,transparent 0 78px,rgba(255,255,255,.05) 78px 79px)}
+  .hero-wrap{text-align:center;display:grid;gap:10px}
+  .kicker{color:#3aa0ff;font-weight:700;letter-spacing:.08em;text-transform:uppercase;font-size:clamp(12px,1.2vw,13px)}
+  h1{font-size:clamp(28px,5vw,44px);line-height:1.15;font-weight:900}
+  .subtitle{color:var(--muted);font-size:clamp(14px,1.6vw,18px)}
+  .cta{margin-top:14px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+  .btn{display:inline-block;padding:12px 16px;border-radius:12px;font-weight:600}
+  .btn.primary{background:var(--a);box-shadow:0 10px 24px rgba(26,117,255,.25)}
+  .btn.primary:hover{background:var(--a-2)}
+  .btn.ghost{border:1px solid var(--line);background:#0b213a}
+  .btn.ghost:hover{border-color:#1e4d85}
 
-  /* Main */
-  .wrap{max-width:var(--maxw);margin:-40px auto 80px;position:relative;padding:0 20px}
-  .card{
-    background:#fff;border-radius:2px;box-shadow:0 8px 28px rgba(0,0,0,.12);
-    padding:38px 36px
-  }
-  .about{max-width:760px;margin:0 auto;color:var(--muted)}
-  .about p{margin:0 0 14px}
-  .about p:last-child{margin-bottom:0}
+  /* Sections */
+  .section{padding:clamp(24px,4vw,40px) 0}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:clamp(18px,3vw,28px)}
+  .about{max-width:900px;margin:0 auto;color:var(--muted)}
+  .about p{margin:0 0 12px}
 
-  .grid{margin-top:34px;display:grid;grid-template-columns:repeat(2,1fr);gap:var(--gap)}
-  .tile{
-    display:grid;grid-template-columns:120px 1fr;gap:18px;align-items:center;
-    padding:18px;border:1px solid #eee;border-radius:6px
-  }
-  .tile h3{font-size:18px;margin-bottom:6px}
-  .tile p{color:var(--muted);font-size:14px;margin-bottom:12px}
-  .btn{
-    display:inline-block;background:var(--btn);color:#fff;padding:10px 14px;border-radius:4px;
-    font-size:14px
-  }
-  .btn:hover{background:var(--btn-hover)}
+  .hl-grid{margin-top:22px;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+  .hl{background:#0b223d;border:1px solid var(--line);border-radius:12px;padding:16px}
+  .hl h3{font-size:clamp(14px,1.4vw,16px);margin-bottom:6px;color:#cfe4ff}
+  .hl p{color:var(--muted);font-size:clamp(12.5px,1.2vw,14px)}
 
-  /* Big tiles (LinkedIn/GitHub) */
-  .grid-logos{margin-top:var(--gap);display:grid;grid-template-columns:repeat(2,1fr);gap:var(--gap)}
-  .logoBox{
-    padding:22px;border:1px solid #eee;border-radius:6px;display:grid;gap:12px;align-items:center;justify-items:center
-  }
-  .logoBox h3{font-size:18px}
-  .muted{color:var(--muted);font-size:14px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-top:18px}
+  .tile{display:grid;grid-template-columns:minmax(90px,120px) 1fr;gap:14px;align-items:center;background:#0b223d;border:1px solid var(--line);border-radius:12px;padding:14px}
+  .tile h3{margin-bottom:4px;font-size:clamp(15px,1.6vw,18px)}
+  .muted{color:var(--muted)}
+  .logos{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin-top:18px}
+  .logoBox{background:#0b223d;border:1px solid var(--line);border-radius:12px;padding:18px;display:grid;gap:8px;justify-items:center;text-align:center}
 
-  /* Footer space */
-  footer{height:40px}
+  .foot{padding:28px 0;color:#6f89a3;font-size:13px;text-align:center}
 
-  /* Responsive */
+  /* Small screens */
   @media (max-width:900px){
-    .hero h1{font-size:38px}
-    .grid,.grid-logos{grid-template-columns:1fr}
-    .tile{grid-template-columns:90px 1fr}
+    .nav{display:none}
+    .burger{display:flex}
+    .tile{grid-template-columns:80px 1fr}
   }
+  /* Respect reduced motion */
+  @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto}}
 </style>
 </head>
 <body>
-  <!-- Header over hero -->
-  <div class="topbar">
-    <div class="brand">Eric Ramos</div>
-    <nav>
+  <!-- Header -->
+  <header class="top">
+    <div class="container topbar">
+      <div class="brand">Eric Ramos</div>
+      <nav class="nav" aria-label="Principal">
+        <a href="#" class="active">Home</a>
+        <a href="#projetos">Projetos</a>
+        <a href="#experiencias">Experiências</a>
+        <a href="#contato">Contato</a>
+      </nav>
+      <button class="burger" aria-label="Abrir menu" aria-expanded="false" aria-controls="drawer">
+        <span></span>
+      </button>
+    </div>
+    <div id="drawer" class="container drawer" role="navigation" aria-label="Menu móvel">
       <a href="#" class="active">Home</a>
       <a href="#projetos">Projetos</a>
       <a href="#experiencias">Experiências</a>
-    </nav>
-  </div>
-
-  <!-- Hero -->
-  <header class="hero" role="banner">
-    <div>
-      <h1>Eric Ramos Souza</h1>
-      <p>Analista de Business Intelligence</p>
+      <a href="#contato">Contato</a>
     </div>
   </header>
 
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container hero-wrap">
+      <div class="kicker">Analytics • BI • Engenharia de Dados</div>
+      <h1>Eric Ramos Souza</h1>
+      <p class="subtitle">Dashboards, modelagem e pipelines. Power BI, Python, SQL e Databricks.</p>
+      <div class="cta">
+        <a class="btn primary" href="#projetos">Ver projetos</a>
+        <a class="btn ghost" href="https://www.linkedin.com/" target="_blank" rel="noopener">LinkedIn</a>
+        <a class="btn ghost" href="https://github.com/EricRSouza" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </div>
+  </section>
+
   <!-- Main -->
-  <main class="wrap">
-    <section class="card">
+  <main class="container section">
+    <article class="card">
       <div class="about">
-        <p>Olá! Meu nome é Eric e sou um profissional da área de análise de dados com ampla experiência em gerenciamento de projetos e resolução de problemas. Tenho conhecimento e experiência em linguagens de programação como Python, R e SQL, em Bancos de Dados e Data Lakes como Databricks, PostgreSQL e Dremio Cloud e ferramentas de visualização de dados como Power BI, Tableau e Qlik View.</p>
-        <p>Ao longo de minha carreira, tive a oportunidade de trabalhar em projetos desafiadores que me permitiram desenvolver habilidades analíticas sólidas e a capacidade de transformar dados em insights valiosos para tomada de decisão. Fui responsável por liderar equipes internas e também colaborar com equipes de diferentes empresas, nesta experiência tive a oportunidade de trabalhar com equipes de desenvolvimento de software, marketing, comercial, financeira e engenharia para entregar soluções de dados eficazes e escaláveis.</p>
-        <p>Tenho experiência em análise de dados do financeiro, comercial, pós-venda, comportamento de usuários, análise de marketing, tráfego pago e monitoramento de KPIs de negócio. Além disso, possuo habilidades de comunicação e apresentação para traduzir resultados de análise de dados em insights acionáveis para líderes empresariais e outras partes interessadas.</p>
-        <p>Estou animado para continuar desenvolvendo minhas habilidades e aplicá-las em um ambiente de trabalho desafiador em análise de dados.</p>
+        <p>Profissional de dados com experiência em BI, métricas e engenharia leve. Do diagnóstico ao deploy: coleta, tratamento, modelagem, visualização e governança.</p>
+        <p>Stack: Python, SQL, Power BI, Databricks, PostgreSQL e nuvem. Foco em KPIs que suportam produto, marketing e finanças.</p>
       </div>
 
-      <!-- Small feature cards -->
-      <div class="grid" id="projetos">
-        <article class="tile">
-          <img alt="Gráfico" src="https://images.unsplash.com/photo-1517148815978-75f6acaaf32c?w=400&auto=format&fit=crop&q=60">
+      <div class="hl-grid" aria-label="Destaques">
+        <div class="hl"><h3>Dashboards executivos</h3><p>Design orientado à decisão, RLS e desempenho.</p></div>
+        <div class="hl"><h3>Modelagem de dados</h3><p>Camadas bronze-silver-gold e métricas consistentes.</p></div>
+        <div class="hl"><h3>Growth e receita</h3><p>Funil, coortes, LTV e atribuição.</p></div>
+      </div>
+
+      <div class="grid" id="projetos" style="margin-top:clamp(18px,3vw,28px)">
+        <section class="tile">
+          <img alt="Gráfico" src="https://images.unsplash.com/photo-1517148815978-75f6acaaf32c?w=480&auto=format&fit=crop&q=60">
           <div>
             <h3>Projetos</h3>
-            <p>Conheça meus projetos de análise de dados.</p>
-            <a class="btn" href="#projetos">Ir para Projetos</a>
+            <p class="muted">Cases e notebooks selecionados.</p>
+            <p><a class="btn ghost" href="projetos.html">Abrir portfólio</a></p>
           </div>
-        </article>
-
-        <article class="tile" id="experiencias">
-          <img alt="Profissional" src="https://images.unsplash.com/photo-1521791136064-7986c2920216?w=400&auto=format&fit=crop&q=60">
+        </section>
+        <section class="tile" id="experiencias">
+          <img alt="Profissional" src="https://images.unsplash.com/photo-1521791136064-7986c2920216?w=480&auto=format&fit=crop&q=60">
           <div>
-            <h3>Experiência Profissional</h3>
-            <p>Confira minhas Experiências Profissionais.</p>
-            <a class="btn" href="#experiencias">Ver Experiências</a>
+            <h3>Experiências</h3>
+            <p class="muted">Histórico de clientes e resultados.</p>
+            <p><a class="btn ghost" href="sobre.html">Ver experiências</a></p>
           </div>
-        </article>
+        </section>
       </div>
 
-      <!-- Logo tiles -->
-      <div class="grid-logos" style="margin-top:34px">
+      <div class="logos" id="contato" style="margin-top:14px">
         <div class="logoBox">
-          <img alt="LinkedIn" style="width:210px;height:auto" src="https://upload.wikimedia.org/wikipedia/commons/c/ca/LinkedIn_logo_initials.png">
-          <div style="text-align:center">
-            <h3>LinkedIn</h3>
-            <p class="muted">Confira meu currículo e minhas experiências profissionais.</p>
-            <a class="btn" href="https://www.linkedin.com/" target="_blank" rel="noopener">Ir para LinkedIn</a>
-          </div>
+          <img alt="LinkedIn" width="128" height="128" src="https://upload.wikimedia.org/wikipedia/commons/c/ca/LinkedIn_logo_initials.png">
+          <h3>LinkedIn</h3>
+          <p class="muted">Currículo e publicações.</p>
+          <a class="btn primary" href="https://www.linkedin.com/" target="_blank" rel="noopener">Ir para LinkedIn</a>
         </div>
-
         <div class="logoBox">
-          <img alt="GitHub" style="width:240px;height:auto" src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png">
-          <div style="text-align:center">
-            <h3>GitHub</h3>
-            <p class="muted">Confira meus códigos voltados a análise de dados.</p>
-            <a class="btn" href="https://github.com/" target="_blank" rel="noopener">Ir para GitHub</a>
-          </div>
+          <img alt="GitHub" width="128" height="128" src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png">
+          <h3>GitHub</h3>
+          <p class="muted">Repositórios e códigos.</p>
+          <a class="btn primary" href="https://github.com/EricRSouza" target="_blank" rel="noopener">Ir para GitHub</a>
         </div>
       </div>
-    </section>
+    </article>
   </main>
 
-  <footer></footer>
+  <footer class="foot">© <span id="y"></span> Eric Ramos Souza • Analytics & BI</footer>
 
   <script>
-    // marca navegação ativa por seção
-    const links=[...document.querySelectorAll('nav a')];
+    // Ano dinâmico
+    document.getElementById('y').textContent = new Date().getFullYear();
+
+    // Menu móvel
+    const btn=document.querySelector('.burger');
+    const drawer=document.getElementById('drawer');
+    btn.addEventListener('click',()=>{
+      const open=drawer.style.display==='flex';
+      drawer.style.display=open?'none':'flex';
+      btn.setAttribute('aria-expanded', String(!open));
+    });
+
+    // Marca link ativo
+    const links=[...document.querySelectorAll('.nav a, #drawer a')];
     function setActive(){
-      const y=window.scrollY;
-      const sec=[{id:"#",top:0},
-                 {id:"#projetos",top:document.getElementById('projetos').getBoundingClientRect().top+window.scrollY-120},
-                 {id:"#experiencias",top:document.getElementById('experiencias').getBoundingClientRect().top+window.scrollY-120}];
-      const current=sec.reverse().find(s=>y>=s.top)?.id || "#";
-      links.forEach(a=>a.classList.toggle('active',a.getAttribute('href')===current|| (current==="#" && a.getAttribute('href')==="#")));
+      const pos=scrollY;
+      const map=[['#',0],['#projetos',document.getElementById('projetos').getBoundingClientRect().top+scrollY-140],['#experiencias',document.getElementById('experiencias').getBoundingClientRect().top+scrollY-140],['#contato',document.getElementById('contato').getBoundingClientRect().top+scrollY-140]];
+      const id=[...map].reverse().find(([,t])=>pos>=t)?.[0] || '#';
+      links.forEach(a=>a.classList.toggle('active',a.getAttribute('href')===id));
     }
-    setActive(); addEventListener('scroll',setActive,{passive:true});
+    setActive(); addEventListener('scroll',setActive,{passive:true}); addEventListener('resize',setActive);
   </script>
 </body>
 </html>
