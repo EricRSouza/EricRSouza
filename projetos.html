@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Projetos • Eric Ramos Souza</title>
+<base href="/EricRSouza/">
+<style>
+  :root{
+    --bg:#071320; --bg-2:#0b1f33; --ink:#e6eef7; --muted:#9fb3c8;
+    --line:#123055; --card:#0e2744; --a:#1a75ff; --a-2:#114db3;
+    --maxw:1200px; --pad:clamp(14px,1.8vw,22px);
+  }
+  *{box-sizing:border-box;margin:0}
+  body{background:var(--bg);color:var(--ink);font:clamp(15px,1.2vw,17px)/1.6 Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif}
+  a{color:inherit;text-decoration:none}
+  img{max-width:100%;display:block;height:auto}
+  .container{max-width:var(--maxw);margin:0 auto;padding:0 var(--pad)}
+
+  /* Header */
+  .top{position:sticky;top:0;z-index:40;background:linear-gradient(180deg,rgba(7,19,32,.92),rgba(7,19,32,.65));border-bottom:1px solid var(--line);backdrop-filter:blur(8px)}
+  .topbar{display:flex;align-items:center;gap:16px;min-height:64px}
+  .brand{font-weight:800}
+  nav{margin-left:auto;display:flex;gap:12px}
+  nav a{padding:8px 10px;border-radius:10px;color:var(--muted)}
+  nav a:hover,nav a.active{color:var(--ink);background:#0d2541}
+
+  /* Hero */
+  .hero{position:relative;padding:clamp(90px,12vw,140px) 0 clamp(28px,6vw,56px);
+        background:
+          linear-gradient(180deg,rgba(0,0,0,.45),rgba(0,0,0,.55)),
+          url('https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?q=80&w=1920&auto=format&fit=crop') center/cover no-repeat,
+          linear-gradient(180deg,var(--bg-2),var(--bg))}
+  .hero h1{font-size:clamp(28px,5vw,44px);line-height:1.15;font-weight:900;text-align:center}
+
+  /* Section */
+  .section{padding:clamp(22px,4vw,40px) 0}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:clamp(18px,3vw,28px)}
+  .lead{font-size:clamp(16px,1.7vw,18px);color:#d6e6ff;font-weight:700;margin-bottom:10px}
+  .muted{color:var(--muted)}
+  .ul{margin:12px 0 0 1.2rem}
+  .ul li{margin:.35rem 0}
+  .grid{display:grid;grid-template-columns:1fr;gap:18px;margin-top:18px}
+
+  /* Media block */
+  .frame{background:#0b223d;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+  .ratio{position:relative;width:100%;padding-top:56.25%}
+  .ratio>iframe,.ratio>img{position:absolute;inset:0;width:100%;height:100%;border:0}
+
+  /* Footer */
+  .foot{padding:28px 0;color:#6f89a3;font-size:13px;text-align:center}
+</style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="top">
+    <div class="container topbar">
+      <div class="brand">Eric Ramos</div>
+      <nav aria-label="Principal">
+        <a href="index.html">Home</a>
+        <a class="active" href="projetos.html">Projetos</a>
+        <a href="sobre.html">Experiências</a>
+        <a href="contato.html">Contato</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container"><h1>Projetos</h1></div>
+  </section>
+
+  <!-- Main -->
+  <main class="container section">
+    <article class="card">
+      <h2 class="lead">Painel de Análise Financeira, de Produtos, Simulação Financeira e Cross-Sell</h2>
+      <p class="muted">
+        Painel interativo em Power BI para gestores acompanharem desempenho financeiro e de produtos, identificar oportunidades de cross-sell e simular cenários.
+      </p>
+
+      <h3 style="margin-top:14px">Vantagens do painel</h3>
+      <ul class="ul muted">
+        <li><b>Análise Financeira:</b> visão detalhada do desempenho financeiro por produto, área e período para decisões de otimização de custos.</li>
+        <li><b>Análise por Vendedor:</b> comparação de performance de equipes e identificação de ações de suporte a times mais produtivos.</li>
+        <li><b>Simulação Financeira:</b> análises preditivas de cenários para embasar decisões com base em dados reais.</li>
+        <li><b>Cross-Sell:</b> insights de oportunidades de venda complementar por cliente e produto.</li>
+        <li><b>Interatividade em tempo real:</b> filtros e segmentações que aceleram decisões e atualizam estratégias com indicadores confiáveis.</li>
+      </ul>
+
+      <!-- Mídia do projeto -->
+      <div class="grid" style="margin-top:18px">
+        <section class="frame">
+          <!-- Se tiver o link "Publicar na Web" do Power BI, substitua o src abaixo -->
+          <!-- Exemplo: src="https://app.powerbi.com/view?r=..." -->
+          <div class="ratio">
+            <!-- PLACEHOLDER: usa imagem caso o embed não esteja disponível -->
+            <img src="https://raw.githubusercontent.com/ericrsouza/assets/main/powerbi-dashboard-placeholder.png"
+                 alt="Preview do dashboard de Análise Financeira em Power BI">
+          </div>
+        </section>
+        <div class="muted" style="text-align:center">
+          <small>
+            Dica: para incorporar o relatório, em <i>Arquivo → Publicar na Web</i> copie o link de incorporação do Power BI e troque o <code>&lt;img&gt;</code> por:
+            <code>&lt;iframe src="SUA_URL_DO_POWERBI" allowfullscreen&gt;&lt;/iframe&gt;</code>.
+          </small>
+        </div>
+      </div>
+    </article>
+  </main>
+
+  <footer class="foot">© <span id="y"></span> Eric Ramos Souza • Analytics & BI</footer>
+  <script>document.getElementById('y').textContent=new Date().getFullYear();</script>
+</body>
+</html>
