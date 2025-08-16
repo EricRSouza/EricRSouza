@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{{ page.title }} • Eric Ramos Souza</title>
+<base href="/EricRSouza/">
+<style>
+  :root{--bg:#071320;--bg2:#0b1f33;--ink:#e6eef7;--muted:#9fb3c8;--line:#123055;--card:#0e2744;--maxw:860px;--pad:clamp(14px,1.8vw,22px)}
+  *{box-sizing:border-box;margin:0} body{background:var(--bg);color:var(--ink);font:clamp(15px,1.2vw,17px)/1.7 Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif}
+  a{color:#9fd0ff} .container{max-width:var(--maxw);margin:0 auto;padding:0 var(--pad)}
+  .top{position:sticky;top:0;background:linear-gradient(180deg,rgba(7,19,32,.92),rgba(7,19,32,.65));border-bottom:1px solid var(--line)}
+  .topbar{display:flex;align-items:center;gap:16px;min-height:64px}.brand{font-weight:800}
+  .nav{margin-left:auto;display:flex;gap:12px}.nav a{padding:8px 10px;border-radius:10px;color:var(--muted)}
+  .nav a:hover{color:var(--ink);background:#0d2541}
+  .hero{padding:64px 0 20px;background:linear-gradient(180deg,var(--bg2),var(--bg))}
+  h1{font-size:clamp(26px,4.6vw,40px);font-weight:900}
+  .meta{color:var(--muted);margin-top:6px}
+  .post{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:clamp(18px,3vw,28px);margin:20px 0}
+  .post h2,.post h3{margin:18px 0 6px} .post p{margin:10px 0} .post ul{margin:8px 0 8px 1.2rem}
+  .foot{color:#6f89a3;text-align:center;padding:24px 0}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="container topbar">
+    <div class="brand">Eric Ramos</div>
+    <nav class="nav">
+      <a href="index.html">Home</a><a href="projetos.html">Projetos</a><a href="sobre.html">Experiências</a><a href="blog.html">Blog</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container">
+    <h1>{{ page.title }}</h1>
+    <div class="meta">{{ page.date | date: "%d %b %Y" }} • {{ page.author | default: "Eric Ramos Souza" }}</div>
+  </div>
+</section>
+
+<main class="container">
+  <article class="post">
+    {{ content }}
+  </article>
+</main>
+
+<footer class="foot">© <span id="y"></span> Eric Ramos Souza</footer>
+<script>document.getElementById('y').textContent=new Date().getFullYear();</script>
+</body>
+</html>
