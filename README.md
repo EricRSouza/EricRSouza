@@ -1,101 +1,90 @@
-# Site de Eric Ramos Souza
+# Site pessoal de Eric Ramos Souza
 
-Site estático com Jekyll, publicado pelo GitHub Pages a partir de `main`.
+Portfólio e blog em React + Vite + TypeScript, com páginas estáticas em português e inglês. A identidade segue Navy & Glacier. A home conecta áreas de atuação, projetos, análises e contato.
+
+## Executar localmente
+
+Requisitos: Node 22.18 ou superior compatível com Vite 8, e pnpm 10.34.5. Se pnpm não estiver instalado, substitua `pnpm` por `npx --yes pnpm@10.34.5`.
+
+```powershell
+pnpm install --frozen-lockfile
+pnpm dev
+```
+
+Abra o endereço mostrado pelo Vite, com o caminho `/EricRSouza/`. Para conferir exatamente o artefato de publicação:
+
+```powershell
+pnpm test
+pnpm build
+pnpm preview
+```
+
+O build executa TypeScript, gera o bundle do navegador e usa React no Node somente durante a compilação para criar HTML de cada rota. `dist/` é o único diretório publicado. Não existe servidor de aplicação em produção. Os artigos já estão no HTML antes do JavaScript; filtros do gráfico e menu móvel são ativados no navegador.
+
+## Editar conteúdo
+
+- `src/lib/content.ts`: textos PT/EN, contato e metadados. Os dois idiomas devem preservar os mesmos fatos.
+- `src/pages/Home.tsx`: ordem e composição da home.
+- `src/pages/ContentPages.tsx`: projetos, listagem de artigos e páginas editoriais.
+- `src/content/*.mdx`: artigo em português e inglês. MDX é código de confiança mantido no repositório, não conteúdo enviado por visitantes.
+- `src/lib/routes.ts`: rotas equivalentes por idioma e URLs antigas preservadas.
+- `src/lib/analytics.ts`: dados sintéticos e cálculos do experimento; valores em reais.
+- `src/styles.css`: tokens da marca, componentes e responsividade.
+
+Ao adicionar uma página, registre as duas rotas, o conteúdo e os metadados. Se for artigo, atualize a listagem e o RSS em `scripts/prerender.mjs`. `scripts/check-build.mjs` confere os links locais, o HTML gerado e a exclusão de arquivos internos. Ainda não há CMS ou painel administrativo.
+
+As fontes são servidas localmente. Não há analytics, cookies de rastreamento ou formulário de terceiros. O contato usa o e-mail e LinkedIn confirmados por Eric. A marca principal é o nome pessoal; nenhuma equipe, empresa estabelecida ou carteira de clientes é sugerida.
+
+## Conteúdo e evidências
+
+- O projeto Power BI aproveita a descrição existente no site. Seu diagrama é conceitual; não é screenshot, prova de execução ou promessa de resultados. Não há embed público disponível.
+- O explorador e o artigo de receita/margem são demonstrações novas, com dados sintéticos identificados, tabela acessível e CSV para reprodução.
+- O primeiro artigo de Web Analytics preserva a data e o sentido do texto original de 2024.
+- A biografia utiliza apenas o contexto fornecido. Histórico de cargos, empresas, currículo e fotografia não foram inventados; podem ser acrescentados quando os materiais forem disponibilizados.
+- Referência de identidade: pasta externa `../Brand`. Os arquivos dessa pasta não são publicados nem alterados pelo build.
 
 ## Branches e aprovação
 
 ```text
 DEV → feature/<nome> → PR para DEV → CI + revisão
-DEV → CI + homologação → PR para main → revisão de outro agente → aprovação de Eric → merge → GitHub Pages
+DEV → homologação + revisão independente → PR para main → aprovação de Eric → merge → publicação
 main → PR de sincronização para DEV
 ```
 
-`DEV` e `main` são permanentes. As demais branches são temporárias.
-`main` representa PROD; não existe uma terceira branch chamada PROD.
+DEV e main são permanentes e protegidas. Não faça push direto, force push, exclusão ou bypass. Main representa PROD. Use merge commit entre as branches permanentes; não habilite exclusão automática de DEV.
 
-- **DEV:** PR obrigatória, build/testes obrigatórios e conversas resolvidas.
-- **main:** mesmas regras, mais o check de promoção a partir de DEV e o check
-  **Approve production**, liberado por Eric no ambiente `production-approval`.
-- As regras incluem administradores e bloqueiam force push e exclusão.
-- PRs devem estar atualizadas com a branch de destino antes do merge.
-- Use **Create a merge commit** nas promoções e sincronizações entre branches permanentes.
-  Nunca exclua DEV após o merge. A exclusão automática de branches fica desativada.
+Antes de abrir uma feature PR, confirme que DEV contém a main atual e atualize a branch temporária com fetch/rebase. A integração exige autorização de Eric, inclusive para DEV.
 
-O autor não pode aprovar a própria PR pela revisão comum do GitHub. Por isso,
-a aprovação obrigatória usa **Actions → execução da PR → Review deployments →
-production-approval → Approve and deploy**. Apesar do nome do botão, esse job
-apenas registra a aprovação: o deploy real continua acontecendo após o merge.
-O ambiente permite autoaprovação e tem Eric como revisor obrigatório, sem bypass
-de administradores. Novos commits geram uma nova execução e exigem nova aprovação.
-Agentes não podem aprovar esse ambiente em nome de Eric.
+`Site CI` roda em PRs para DEV/main e pushes em DEV, executando testes, TypeScript, build e validação do HTML. O check obrigatório mantém o nome **Build and test site**.
 
-Antes dessa decisão, outro agente deve revisar o diff e registrar na PR o commit
-revisado, achados, riscos e evidências dos testes. Essa revisão independente é uma
-regra de trabalho registrada em `AGENTS.md`; o GitHub exige a aprovação humana,
-mas não consegue atestar por si só que houve uma segunda análise de IA.
+O workflow de produção aceita PR apenas de DEV e exige CI bem-sucedido do mesmo SHA em push de DEV. Outro agente deve revisar o diff e produzir um levantamento na PR antes da decisão de Eric.
 
-As proteções são configurações do GitHub, não são aplicadas apenas por este arquivo.
-Confira-as em Settings → Branches. Administradores ainda podem editar essas configurações.
+Eric aprova em **Actions → Production approval → Review deployments → production-approval → Approve and deploy**. Esse botão libera o check; o deploy depende do merge posterior. O ambiente permite aprovação pela mesma conta e não permite bypass. Agentes nunca aprovam em nome de Eric. Edite o relatório antes da aprovação: novas edições ou commits reiniciam esse workflow.
 
-## Implementar uma feature
-
-```powershell
-git switch DEV
-git pull --ff-only origin DEV
-git switch -c feature/nome-da-feature
-# Faça as mudanças, revise e crie os commits.
-git push -u origin feature/nome-da-feature
-gh pr create --base DEV
-```
-
-Antes de abrir a PR, confirme que DEV contém a main atual (sincronize por PR se
-necessário). Na branch temporária, rode `git fetch origin` e `git rebase origin/DEV`.
-Não faça rebase nem force push das branches permanentes.
-Espere os checks e a revisão. Faça merge somente quando autorizado.
-
-## Homologar DEV
-
-O workflow **Site CI** compila com o mecanismo Jekyll do GitHub Pages e verifica
-páginas essenciais, processamento de Liquid, geração/listagem dos posts e arquivos
-que não devem ser publicados. Ele roda nas PRs e em cada push/merge em DEV.
-Não valida links externos nem substitui a revisão visual e funcional.
-
-O artefato `site-<SHA>` de cada execução bem-sucedida contém o site para revisão.
-DEV não tem URL pública própria: a prévia abaixo roda apenas na sua máquina.
+## Homologação pelo artefato do CI
 
 ```powershell
 gh run list --workflow site-ci.yml --branch DEV --event push
-# Substitua RUN_ID pelo ID da execução concluída do commit que será publicado.
-# Use uma pasta vazia para não misturar artefatos de execuções diferentes.
 $devSha = gh run view RUN_ID --json headSha --jq '.headSha'
 gh run download RUN_ID --name "site-$devSha" --dir .preview/RUN_ID/EricRSouza
 python -m http.server 4000 --bind 127.0.0.1 --directory .preview/RUN_ID
 ```
 
-Abra <http://localhost:4000/EricRSouza/>. O caminho `/EricRSouza/` preserva o
-`base href` atual do site. Revise navegação, páginas afetadas e versões desktop/celular.
-Registre o SHA e o resultado na PR de produção. Links quebrados preexistentes não
-são cobertos por estes checks e devem ser tratados em features próprias.
+Use uma pasta vazia. Abra `http://localhost:4000/EricRSouza/`. Valide home, projetos, contato, idiomas e blog em desktop/celular; no gráfico, alterne canal/métrica, confira os valores e baixe o CSV. Registre commit e resultado na PR. DEV não tem hospedagem pública separada.
 
-## Promover para produção
+## Migração da publicação (somente na release aprovada)
 
-1. Aguarde o **Site CI** do commit atual de DEV terminar com sucesso.
-2. Faça a homologação e abra `gh pr create --base main --head DEV`.
-3. Solicite revisão independente a outro agente e inclua seu levantamento na PR.
-4. Eric lê o levantamento, confere a homologação e aprova `production-approval` no Actions.
-5. Após autorização, use merge commit. O Pages publica a partir de main.
-6. Abra uma PR de `main` para `DEV` e integre com merge commit para sincronizar o histórico.
+O repositório ainda usa a publicação Jekyll legada. As configurações de produção não foram alteradas durante a construção desta feature.
 
-O check **Verify DEV promotion** recusa outras branches e exige CI bem-sucedido
-do mesmo SHA em um evento push de DEV. Se a PR foi aberta antes de o CI de DEV
-terminar, reexecute o check após o sucesso. Correções urgentes também passam por DEV.
-Conclua as edições no corpo da PR antes de aprovar: alterações no relatório ou
-novos commits reiniciam o workflow de aprovação.
+Antes de integrar a migração em main, com autorização de Eric:
 
-## Configuração inicial
+1. Revisar a PR DEV → main, confirmar o CI e obter a aprovação pessoal.
+2. Em Settings → Pages, trocar **Deploy from a branch** por **GitHub Actions**. Isso permite publicar o build Vite; não muda a branch de produção para DEV.
+3. Fazer merge autorizado para main. `Publish approved main` compila e publica somente pushes em main, usando o ambiente `github-pages` já limitado a main.
+4. Verificar o deployment e os links no endereço público. Sincronizar main → DEV por PR.
 
-A criação de DEV inclui a configuração inicial do CI, antes de ativar a proteção
-da nova branch. A adoção em main ocorre por PR, sem push direto nem publicação
-antecipada. A fonte e a política de publicação do Pages continuam limitadas a main.
+Não mescle a migração antes de preparar essa alteração: o Jekyll legado não compila TypeScript. O caminho público `/EricRSouza/` é definido em `vite.config.ts` e `scripts/prerender.mjs`; se domínio ou caminho mudar, atualize os dois e revise URLs canônicas/RSS.
 
-Documentação: [proteção de branches](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches).
+## Verificação
+
+Os testes verificam agregação, margem ponderada, filtros, números do artigo, rotas e compatibilidade de links antigos. O build verifica links/arquivos locais e conteúdo pré-renderizado. A revisão visual e de teclado complementa essas verificações; testes não equivalem a certificação integral de acessibilidade.
