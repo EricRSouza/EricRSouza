@@ -1,0 +1,34 @@
+name: Site CI
+
+on:
+  push:
+    branches: [DEV]
+  pull_request:
+    branches: [DEV, main]
+    types: [opened, synchronize, reopened, edited]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: site-ci-${{ github.event_name }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    name: Build and test site
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build with the GitHub Pages Jekyll engine
+        uses: actions/jekyll-build-pages@v1
+      - name: Validate generated pages
+        run: python scripts/check_site.py _site
+      - name: Save site for DEV review
+        uses: actions/upload-artifact@v4
+        with:
+          name: site-${{ github.sha }}
+          path: _site/
+          if-no-files-found: error
+          retention-days: 14
