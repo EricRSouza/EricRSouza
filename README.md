@@ -6,7 +6,7 @@ Site estático com Jekyll, publicado pelo GitHub Pages a partir de `main`.
 
 ```text
 DEV → feature/<nome> → PR para DEV → CI + revisão
-DEV → CI + homologação + revisão de outro agente → aprovação de Eric → PR para main → GitHub Pages
+DEV → CI + homologação → PR para main → revisão de outro agente → aprovação de Eric → merge → GitHub Pages
 main → PR de sincronização para DEV
 ```
 
@@ -48,8 +48,9 @@ git push -u origin feature/nome-da-feature
 gh pr create --base DEV
 ```
 
-Antes de abrir a PR, atualize a branch com `origin/main` e `origin/DEV` (fetch e
-rebase da branch temporária). Não faça rebase nem force push das branches permanentes.
+Antes de abrir a PR, confirme que DEV contém a main atual (sincronize por PR se
+necessário). Na branch temporária, rode `git fetch origin` e `git rebase origin/DEV`.
+Não faça rebase nem force push das branches permanentes.
 Espere os checks e a revisão. Faça merge somente quando autorizado.
 
 ## Homologar DEV
@@ -66,7 +67,8 @@ DEV não tem URL pública própria: a prévia abaixo roda apenas na sua máquina
 gh run list --workflow site-ci.yml --branch DEV --event push
 # Substitua RUN_ID pelo ID da execução concluída do commit que será publicado.
 # Use uma pasta vazia para não misturar artefatos de execuções diferentes.
-gh run download RUN_ID --dir .preview/RUN_ID/EricRSouza
+$devSha = gh run view RUN_ID --json headSha --jq '.headSha'
+gh run download RUN_ID --name "site-$devSha" --dir .preview/RUN_ID/EricRSouza
 python -m http.server 4000 --bind 127.0.0.1 --directory .preview/RUN_ID
 ```
 
@@ -87,6 +89,8 @@ são cobertos por estes checks e devem ser tratados em features próprias.
 O check **Verify DEV promotion** recusa outras branches e exige CI bem-sucedido
 do mesmo SHA em um evento push de DEV. Se a PR foi aberta antes de o CI de DEV
 terminar, reexecute o check após o sucesso. Correções urgentes também passam por DEV.
+Conclua as edições no corpo da PR antes de aprovar: alterações no relatório ou
+novos commits reiniciam o workflow de aprovação.
 
 ## Configuração inicial
 

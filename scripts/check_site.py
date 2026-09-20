@@ -2,6 +2,7 @@
 
 from html.parser import HTMLParser
 from pathlib import Path
+import re
 import sys
 
 
@@ -39,7 +40,8 @@ def check_site(root):
     if blog.is_file():
         page = Page()
         page.feed(blog.read_text(encoding="utf-8"))
-        posts = [path for path in pages if path.parent != root and path.name != "404.html"]
+        # Jekyll's current default post permalink contains /year/month/day/title.html.
+        posts = [path for path in pages if re.search(r"/\d{4}/\d{2}/\d{2}/[^/]+\.html$", "/" + path.relative_to(root).as_posix())]
         if not posts:
             errors.append("No generated blog posts")
         for post in posts:
