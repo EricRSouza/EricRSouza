@@ -9,3 +9,9 @@ google_analytics: # Vamos configurar depois
 plugins:
   - jekyll-feed
   - jekyll-sitemap
+
+# Ferramentas e instruções internas não fazem parte do site publicado.
+exclude:
+  - README.md
+  - AGENTS.md
+  - scripts
