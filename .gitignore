@@ -4,3 +4,9 @@ _site/
 .sass-cache/
 __pycache__/
 .preview/
+node_modules/
+dist/
+.build/
+.playwright-cli/
+work/
+outputs/

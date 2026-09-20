@@ -21,14 +21,20 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
-      - name: Build with the GitHub Pages Jekyll engine
-        uses: actions/jekyll-build-pages@v1
-      - name: Validate generated pages
-        run: python scripts/check_site.py _site
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm test
+      - name: Type-check, build and validate static pages
+        run: pnpm build
       - name: Save site for DEV review
         uses: actions/upload-artifact@v4
         with:
           name: site-${{ github.sha }}
-          path: _site/
+          path: dist/
+          include-hidden-files: true
           if-no-files-found: error
           retention-days: 14
