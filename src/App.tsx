@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { Layout } from './components/Layout';
-import { Home } from './pages/Home';
+import { LayoutComparison } from './pages/LayoutComparison';
 import { Article, Blog, Project, Projects } from './pages/ContentPages';
 import { resolveRoute, routeHref } from './lib/routes';
 import { copy, pageMetadata } from './lib/content';
@@ -14,7 +14,7 @@ export function App({ path }: { path: string }) {
   let content;
   switch (page) {
     case 'home':
-      content = <Home locale={locale} />;
+      content = <LayoutComparison locale={locale} />;
       break;
     case 'projects':
       content = <Projects locale={locale} />;

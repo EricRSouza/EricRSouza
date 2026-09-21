@@ -1,0 +1,398 @@
+.layout-picker {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 12px 20px;
+  background: #e6f2fa;
+  border-bottom: 1px solid #c3d5e0;
+}
+.layout-picker > span {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  margin-right: 16px;
+  color: var(--navy);
+}
+.layout-picker button {
+  border: 1px solid #a6bfce;
+  border-radius: 4px;
+  padding: 7px 16px;
+  background: transparent;
+  font-size: 12px;
+}
+.layout-picker button[aria-pressed="true"] {
+  background: var(--navy);
+  border-color: var(--navy);
+  color: white;
+}
+.alternative .eyebrow {
+  margin-bottom: 24px;
+}
+.alternative .text-link {
+  margin-top: 22px;
+}
+.alt-hero {
+  display: grid;
+  gap: 70px;
+  padding-top: 88px;
+  padding-bottom: 72px;
+  align-items: center;
+}
+.alt-hero h1 {
+  margin-bottom: 32px;
+}
+.alt-intro p {
+  color: var(--muted);
+  max-width: 570px;
+  font-size: 18px;
+}
+.alt-intro .button {
+  margin-top: 28px;
+}
+.alt-disciplines {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  padding-top: 22px;
+  padding-bottom: 22px;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  font-size: 12px;
+  font-weight: 600;
+}
+.alt-services {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 100px;
+}
+.alt-services-heading > p:last-child {
+  margin-top: 25px;
+  color: var(--muted);
+  max-width: 360px;
+}
+.alt-service {
+  display: grid;
+  grid-template-columns: 30px 1fr;
+  gap: 26px;
+  padding: 30px 0;
+  border-top: 1px solid var(--line);
+}
+.alt-number {
+  font-size: 12px;
+  color: var(--blue);
+  font-weight: 600;
+  padding-top: 5px;
+}
+.alt-service h3 {
+  margin-bottom: 12px;
+}
+.alt-service p {
+  color: var(--muted);
+}
+.alt-service .tiny-label {
+  margin-top: 16px;
+}
+.alt-projects {
+  background: #eaf0f3;
+}
+.alt-about {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px 100px;
+}
+.alt-about > div > p:not(.eyebrow) + p {
+  margin-top: 20px;
+}
+.alt-about > div:nth-child(2) {
+  color: var(--muted);
+}
+.alt-method {
+  grid-column: 1/-1;
+  list-style: decimal-leading-zero;
+  padding: 30px 0 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 40px;
+  border-top: 1px solid var(--line);
+  counter-reset: step;
+}
+.alt-method li {
+  display: block;
+  counter-increment: step;
+}
+.alt-method li::before {
+  content: "0" counter(step);
+  color: var(--blue);
+  font-size: 12px;
+}
+.alt-method h3 {
+  margin: 12px 0 8px;
+  font-size: 20px;
+}
+.alt-method p {
+  color: var(--muted);
+  font-size: 14px;
+}
+.alt-journal {
+  background: var(--ice);
+}
+.alt-journal-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 100px;
+}
+.alt-journal article {
+  border-top: 1px solid #9db1bf;
+  padding-top: 25px;
+}
+.alt-journal h3 {
+  font-size: 30px;
+  margin: 18px 0;
+}
+.alternative-editorial {
+  background: #faf9f6;
+}
+.alternative-editorial .alt-hero {
+  grid-template-columns: minmax(0, 1fr) 240px;
+}
+.alternative-editorial h1 {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: clamp(48px, 5.8vw, 82px);
+  letter-spacing: -0.05em;
+}
+.alternative-editorial h2 {
+  font-family: var(--serif);
+  font-weight: 400;
+  letter-spacing: -0.035em;
+}
+.editorial-note {
+  border-left: 1px solid #c9c7bd;
+  padding-left: 40px;
+}
+.editorial-monogram {
+  display: block;
+  font-family: var(--serif);
+  font-size: 110px;
+  line-height: 1.25;
+  color: var(--blue);
+  margin-bottom: 25px;
+}
+.editorial-note > p:not(.tiny-label) {
+  color: var(--muted);
+  margin-top: 10px;
+  font-size: 14px;
+}
+.alternative-editorial .project-grid {
+  grid-template-columns: 1fr;
+  gap: 32px;
+}
+.alternative-editorial .project-card {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid #bccbd3;
+  border-radius: 0;
+  padding-bottom: 32px;
+  box-shadow: none;
+}
+.alternative-editorial .project-card-body {
+  align-self: center;
+  padding: 30px 48px;
+}
+.alternative-portfolio {
+  background: var(--navy);
+}
+.alternative-portfolio .alt-hero {
+  grid-template-columns: 1fr 1fr;
+  gap: 56px;
+}
+.alternative-portfolio .alt-hero h1 {
+  color: white;
+  font-size: clamp(44px, 4.2vw, 64px);
+}
+.alternative-portfolio .alt-hero h1 em {
+  color: #b3dcec;
+}
+.alternative-portfolio .alt-hero .eyebrow {
+  color: #b3dcec;
+  font-size: 10px;
+}
+.alternative-portfolio .alt-intro p {
+  color: #d0dbe6;
+  font-size: 16px;
+}
+.alternative-portfolio .alt-intro .button {
+  background: var(--amber);
+  color: var(--navy);
+}
+.portfolio-feature {
+  border-radius: 12px;
+  background: #fff;
+  padding: 24px;
+  box-shadow: 18px 18px 0 #183a57;
+}
+.portfolio-feature-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 14px;
+  margin-bottom: 10px;
+}
+.portfolio-feature > .text-link {
+  font-size: 14px;
+  display: flex;
+  justify-content: space-between;
+}
+.alternative-portfolio .alt-disciplines {
+  color: #d0dbe6;
+  border-color: #38516b;
+}
+.alternative-portfolio .alt-projects {
+  background: transparent;
+  padding-top: 70px;
+}
+.alternative-portfolio .alt-projects .section-heading h2 {
+  color: white;
+}
+.alternative-portfolio .alt-projects .section-heading .eyebrow,
+.alternative-portfolio .alt-projects .section-heading > a {
+  color: #b3dcec;
+}
+.alternative-portfolio .alt-services,
+.alternative-portfolio .alt-about {
+  background: white;
+  width: 100%;
+  max-width: none;
+  padding-left: max(48px, calc((100% - 1200px) / 2));
+  padding-right: max(48px, calc((100% - 1200px) / 2));
+}
+.alternative-portfolio .alt-services {
+  grid-template-columns: 1fr;
+  gap: 44px;
+}
+.alternative-portfolio .alt-services-heading {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  column-gap: 60px;
+}
+.alternative-portfolio .alt-services-heading .eyebrow {
+  grid-column: 1/-1;
+}
+.alternative-portfolio .alt-services-heading > p:last-child {
+  margin-top: 0;
+}
+.alternative-portfolio .alt-service-list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+}
+.alternative-portfolio .alt-service {
+  display: block;
+  padding: 28px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+.alternative-portfolio .alt-service h3 {
+  margin-top: 20px;
+}
+@media (max-width: 900px) {
+  .alt-hero {
+    gap: 35px;
+    padding-top: 50px;
+  }
+  .alternative-editorial .alt-hero {
+    grid-template-columns: 1fr 180px;
+  }
+  .editorial-note {
+    padding-left: 24px;
+  }
+  .alt-services,
+  .alt-about,
+  .alt-journal-grid {
+    gap: 40px;
+  }
+  .alternative-portfolio .alt-hero {
+    grid-template-columns: 1fr;
+  }
+  .portfolio-feature {
+    max-width: 600px;
+    width: 100%;
+  }
+  .alternative-portfolio .alt-service-list {
+    grid-template-columns: 1fr;
+  }
+  .alternative-portfolio .alt-service {
+    display: grid;
+    grid-template-columns: 30px 1fr;
+  }
+  .alternative-portfolio .alt-service h3 {
+    margin-top: 0;
+  }
+}
+@media (max-width: 600px) {
+  .layout-picker {
+    gap: 6px;
+    padding: 10px;
+  }
+  .layout-picker > span {
+    flex-basis: 100%;
+    text-align: center;
+    margin: 0;
+  }
+  .layout-picker button {
+    padding: 6px 10px;
+  }
+  .alternative-editorial .alt-hero,
+  .alt-services,
+  .alt-about,
+  .alt-journal-grid,
+  .alternative-portfolio .alt-services-heading {
+    grid-template-columns: 1fr;
+  }
+  .alternative-editorial .alt-hero h1 {
+    font-size: 46px;
+  }
+  .alternative-portfolio .alt-hero h1 {
+    font-size: 42px;
+  }
+  .editorial-note {
+    display: none;
+  }
+  .alt-disciplines {
+    flex-wrap: wrap;
+    font-size: 11px;
+    gap: 10px 20px;
+  }
+  .alternative-editorial .project-card {
+    grid-template-columns: 1fr;
+  }
+  .alternative-editorial .project-card-body {
+    padding: 25px 0;
+  }
+  .alt-method {
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+  }
+  .alternative-portfolio .alt-services,
+  .alternative-portfolio .alt-about {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+  .portfolio-feature {
+    padding: 16px;
+    box-shadow: 7px 7px 0 #183a57;
+  }
+  .alt-journal h3 {
+    font-size: 27px;
+  }
+  .alternative-portfolio .alt-service {
+    padding: 20px;
+    gap: 14px;
+  }
+}
