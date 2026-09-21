@@ -4,12 +4,13 @@ import type { Locale, Page } from '../lib/routes';
 import { Arrow, ServiceIcon } from '../components/Icons';
 import { RevenueChart } from '../components/RevenueChart';
 import { ProjectCards } from '../components/ProjectCards';
+import type { ReactNode } from 'react';
 
-export function Home({ locale }: { locale: Locale }) {
+export function Home({ locale, opening }: { locale: Locale; opening?: ReactNode }) {
   const t = copy[locale];
   return (
     <>
-      <section className="hero">
+      {opening ?? <section className="hero">
         <div className="container hero-grid">
           <div className="hero-copy">
             <p className="eyebrow">
@@ -75,7 +76,7 @@ export function Home({ locale }: { locale: Locale }) {
             <span>{locale === 'pt' ? 'Visualização de dados' : 'Data visualization'}</span>
           </div>
         </div>
-      </section>
+      </section>}
       <section className="section services-section" id="servicos">
         <div className="container">
           <div className="section-intro">
