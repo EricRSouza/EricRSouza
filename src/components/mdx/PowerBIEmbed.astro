@@ -1,31 +1,32 @@
 ---
 /**
- * Embeds a Power BI "Publish to web" report in a post.
- * The iframe loads only after the reader clicks, so the page stays fast.
- *
- * <PowerBIEmbed src="https://app.powerbi.com/view?r=..." title="Cross-sell dashboard" />
+ * A Power BI "Publish to web" report. The iframe loads only after the reader clicks, so the page stays fast.
+ * Set as a post's `media` (`kind: powerbi`) or used directly in MDX.
  */
+import type { Lang } from '../../i18n';
+
 interface Props {
   src: string;
   title: string;
-  /** Text on the load button. */
-  label?: string;
+  lang: Lang;
 }
 
-const { src, title, label = 'Load the interactive report' } = Astro.props;
+const { src, title, lang } = Astro.props;
+const text = {
+  en: { load: 'Load the interactive report', note: 'Power BI report · synthetic data · loads from Microsoft' },
+  pt: { load: 'Carregar o relatório interativo', note: 'Relatório Power BI · dados sintéticos · carregado da Microsoft' },
+}[lang];
 ---
 
-<figure class="pbi">
-  <div class="frame" data-src={src} data-title={title}>
-    <button type="button" class="sans">{label}</button>
+<figure class="pbi-embed">
+  <div class="pbi-frame" data-src={src} data-title={title}>
+    <button type="button" class="button">{text.load}</button>
   </div>
-  <figcaption class="sans muted">
-    {title} · <a href={src} target="_blank" rel="noopener">Power BI</a>
-  </figcaption>
+  <figcaption>{text.note} · <a href={src} target="_blank" rel="noopener noreferrer">{lang === 'pt' ? 'Abrir em tela cheia' : 'Open full screen'}</a></figcaption>
 </figure>
 
 <script>
-  for (const frame of document.querySelectorAll<HTMLElement>('.pbi .frame')) {
+  for (const frame of document.querySelectorAll<HTMLElement>('.pbi-frame')) {
     frame.querySelector('button')?.addEventListener('click', () => {
       const iframe = document.createElement('iframe');
       iframe.src = frame.dataset.src ?? '';
@@ -35,45 +36,3 @@ const { src, title, label = 'Load the interactive report' } = Astro.props;
     });
   }
 </script>
-
-<style>
-  .pbi {
-    margin-inline: 0;
-  }
-
-  .frame {
-    position: relative;
-    display: grid;
-    place-items: center;
-    aspect-ratio: 16 / 10;
-    border: 1px solid var(--rule);
-    border-radius: 4px;
-    background:
-      repeating-linear-gradient(90deg, transparent 0 39px, color-mix(in srgb, var(--rule) 60%, transparent) 39px 40px),
-      var(--surface);
-  }
-
-  .frame :global(iframe) {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    border: 0;
-  }
-
-  button {
-    padding: 0.7em 1.2em;
-    border: 0;
-    border-radius: 4px;
-    background: var(--ink);
-    color: var(--paper);
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-  }
-
-  figcaption {
-    margin-top: 0.6rem;
-    font-size: 0.9rem;
-  }
-</style>

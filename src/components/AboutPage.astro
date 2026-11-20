@@ -1,7 +1,8 @@
 ---
 /** About page body, shared by `/about/` and `/pt/about/`. Bio and experience live here, in both languages. */
 import Base from '../layouts/Base.astro';
-import { path, type Lang } from '../i18n';
+import { Arrow } from '../react/Icons';
+import { contact, path, type Lang } from '../i18n';
 
 interface Props {
   lang: Lang;
@@ -72,13 +73,11 @@ const text = {
       ['Data models people can trust', 'Star schemas and bronze, silver and gold layers in Databricks, with metrics that mean the same thing everywhere.'],
       ['Commercial and marketing analytics', 'Cross-sell, funnels, cohorts, campaign performance and financial KPIs.'],
     ],
-    expTitle: 'Experience',
+    label: 'ABOUT / EXPERIENCE',
+    expTitle: 'EXPERIENCE',
     toolsTitle: 'Tools',
     tools: 'Power BI, Tableau, Qlik, Databricks, Dremio, PostgreSQL, SQL Server, BigQuery, MySQL, Python, SQL, R, VBA, Google Analytics.',
-    contactTitle: 'Contact',
-    contact: 'I’m open to remote roles and consulting projects. The best way to reach me is a message on',
-    writing: 'You can also see what I’m working on in the',
-    writingLink: 'posts and case studies',
+    linkedin: 'Full history on LinkedIn',
   },
   pt: {
     title: 'Sobre',
@@ -92,144 +91,55 @@ const text = {
       ['Modelos de dados confiáveis', 'Esquemas estrela e camadas bronze, silver e gold no Databricks, com métricas que significam a mesma coisa em todo lugar.'],
       ['Analytics comercial e de marketing', 'Cross-sell, funis, coortes, performance de campanhas e KPIs financeiros.'],
     ],
-    expTitle: 'Experiência',
+    label: 'SOBRE / EXPERIÊNCIA',
+    expTitle: 'EXPERIÊNCIA',
     toolsTitle: 'Ferramentas',
     tools: 'Power BI, Tableau, Qlik, Databricks, Dremio, PostgreSQL, SQL Server, BigQuery, MySQL, Python, SQL, R, VBA, Google Analytics.',
-    contactTitle: 'Contato',
-    contact: 'Estou aberto a vagas remotas e projetos de consultoria. O melhor jeito de falar comigo é por mensagem no',
-    writing: 'Você também pode ver no que estou trabalhando nos',
-    writingLink: 'posts e cases',
+    linkedin: 'Histórico completo no LinkedIn',
   },
 }[lang];
 ---
 
 <Base lang={lang} title={text.title} alternate={path(lang === 'en' ? 'pt' : 'en', '/about/')} current="about">
-  <h1>{text.title}</h1>
-  <div class="intro">
-    {text.intro.map((p) => <p>{p}</p>)}
-  </div>
+  <section class="section listing-page container about-page">
+    <p class="eyebrow">{text.label}</p>
+    <h1>{text.title}</h1>
+    {text.intro.map((p) => <p class="page-description">{p}</p>)}
 
-  <section>
-    <h2>{text.helpTitle}</h2>
-    <dl class="help">
-      {
-        text.help.map(([term, desc]) => (
-          <div>
-            <dt class="sans">{term}</dt>
-            <dd>{desc}</dd>
-          </div>
-        ))
-      }
-    </dl>
-  </section>
-
-  <section>
-    <h2>{text.expTitle}</h2>
-    <ol class="timeline">
-      {
-        experience.map((job) => (
-          <li>
-            <span class="period sans muted">{job.period}</span>
-            <div>
-              <h3>{job.role[lang]}</h3>
-              {job.org && <p class="org sans muted">{job.org}</p>}
-              <p>{job.summary[lang]}</p>
-            </div>
-          </li>
-        ))
-      }
-    </ol>
-  </section>
-
-  <section>
-    <h2>{text.toolsTitle}</h2>
-    <p>{text.tools}</p>
-  </section>
-
-  <section>
-    <h2>{text.contactTitle}</h2>
-    <p>
-      {text.contact} <a href="https://www.linkedin.com/in/ericramossouzadataanalyst/" rel="me">LinkedIn</a>.
-      {text.writing} <a href={path(lang)}>{text.writingLink}</a>.
-    </p>
+    <div class="case-grid">
+      <aside>
+        <p class="tiny-label">{text.helpTitle}</p>
+        <dl>
+          {
+            text.help.map(([term, desc]) => (
+              <>
+                <dt>{term}</dt>
+                <dd>{desc}</dd>
+              </>
+            ))
+          }
+          <dt>{text.toolsTitle}</dt>
+          <dd>{text.tools}</dd>
+        </dl>
+      </aside>
+      <div>
+        <p class="eyebrow">{text.expTitle}</p>
+        <ol class="timeline">
+          {
+            experience.map((job) => (
+              <li>
+                <span class="timeline-period">{job.period}</span>
+                <div>
+                  <h2>{job.role[lang]}</h2>
+                  {job.org && <p class="timeline-org">{job.org}</p>}
+                  <p>{job.summary[lang]}</p>
+                </div>
+              </li>
+            ))
+          }
+        </ol>
+        <a class="text-link" href={contact.linkedin} target="_blank" rel="noopener noreferrer">{text.linkedin}<Arrow diagonal /></a>
+      </div>
+    </div>
   </section>
 </Base>
-
-<style>
-  h1 {
-    font-size: clamp(2.5rem, 8vw, 4rem);
-    font-weight: 750;
-    font-stretch: 78%;
-    line-height: 1;
-  }
-
-  .intro {
-    margin-top: 1.5rem;
-    font-size: 1.25rem;
-  }
-
-  section {
-    margin-top: 3.5rem;
-  }
-
-  h2 {
-    margin-bottom: 1.25rem;
-    font-size: 1.5rem;
-    font-weight: 650;
-  }
-
-  .help {
-    display: grid;
-    gap: 1.25rem;
-    margin: 0;
-  }
-
-  dt {
-    font-weight: 650;
-  }
-
-  dd {
-    margin: 0.2rem 0 0;
-    color: var(--muted);
-  }
-
-  .timeline {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
-
-  .timeline li {
-    display: grid;
-    grid-template-columns: 7.5rem 1fr;
-    gap: 0.25rem 1.25rem;
-    padding-block: 1.25rem;
-    border-top: 1px solid var(--rule);
-  }
-
-  .period {
-    padding-top: 0.15rem;
-    font-size: 0.95rem;
-    font-variant-numeric: tabular-nums;
-  }
-
-  h3 {
-    font-size: 1.15rem;
-    font-weight: 650;
-  }
-
-  .org {
-    margin: 0.15rem 0 0;
-    font-size: 0.95rem;
-  }
-
-  .timeline p:last-child {
-    margin: 0.5rem 0 0;
-  }
-
-  @media (max-width: 40rem) {
-    .timeline li {
-      grid-template-columns: 1fr;
-    }
-  }
-</style>

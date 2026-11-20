@@ -1,18 +1,18 @@
 ---
 import Base from '../layouts/Base.astro';
+import { Arrow } from '../react/Icons';
 import { ui } from '../i18n';
 ---
 
-<Base lang="en" title={ui.en.notFoundTitle}>
-  <h1>{ui.en.notFoundTitle}</h1>
-  <p>{ui.en.notFoundBody} <a href="/">{ui.en.backHome}</a></p>
-  <p lang="pt-BR" class="muted">{ui.pt.notFoundBody} <a href="/pt/">{ui.pt.backHome}</a></p>
+<Base lang="en" title="404">
+  <section class="container section listing-page">
+    <p class="eyebrow">404</p>
+    <h1>{ui.en.notFoundTitle}</h1>
+    <p class="page-description">{ui.en.notFoundText}</p>
+    <p class="page-description" lang="pt-BR">{ui.pt.notFoundTitle} {ui.pt.notFoundText}</p>
+    <div class="hero-actions">
+      <a class="button" href="/">Home<Arrow /></a>
+      <a class="text-link" href="/pt/">Início em português<Arrow /></a>
+    </div>
+  </section>
 </Base>
-
-<style>
-  h1 {
-    font-size: clamp(2.25rem, 7vw, 3.5rem);
-    font-stretch: 80%;
-    margin-bottom: 1.5rem;
-  }
-</style>

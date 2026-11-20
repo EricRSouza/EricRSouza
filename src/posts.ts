@@ -33,7 +33,7 @@ export async function postPaths(lang: Lang) {
 }
 
 export function postUrl(post: Pick<Post, 'lang' | 'slug'>) {
-  return path(post.lang, `/posts/${post.slug}/`);
+  return path(post.lang, `/blog/${post.slug}/`);
 }
 
 /** URL-safe key for a tag, used in the `?tag=` filter. */

@@ -7,6 +7,12 @@ import sitemap from '@astrojs/sitemap';
 export default defineConfig({
   site: 'https://ericramos.com.br',
   trailingSlash: 'ignore',
+  // Addresses from the old Google Sites version of ericramos.com.br.
+  redirects: {
+    '/home': '/pt/',
+    '/projetos': '/pt/blog/?type=project',
+    '/experiencia-profissional': '/pt/about/',
+  },
   integrations: [
     mdx(),
     // React powers interactive islands inside posts (charts, simulators, dashboards).

@@ -1,0 +1,30 @@
+---
+/** Card for a project post, with its illustration; used on the home page. */
+import { Arrow } from '../react/Icons';
+import { ProjectVisual } from '../react/ProjectVisual';
+import { ui } from '../i18n';
+import { postUrl, type Post } from '../posts';
+
+interface Props {
+  post: Post;
+}
+
+const { post } = Astro.props;
+const href = postUrl(post);
+---
+
+<article class="project-card">
+  {
+    post.data.cover && (
+      <a href={href} class="project-image-link" aria-label={post.data.title}>
+        <ProjectVisual kind={post.data.cover} locale={post.lang} />
+      </a>
+    )
+  }
+  <div class="project-card-body">
+    <p class="tiny-label">{post.data.kicker}</p>
+    <h3><a href={href}>{post.data.title}</a></h3>
+    <p>{post.data.description}</p>
+    <a class="text-link" href={href}>{ui[post.lang].viewProject}<Arrow /></a>
+  </div>
+</article>
