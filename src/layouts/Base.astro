@@ -10,6 +10,8 @@ import '@fontsource/source-serif-4/latin-600.css';
 import '../styles/site.css';
 import { Arrow } from '../react/Icons';
 import { contact, htmlLang, path, ui, type Lang } from '../i18n';
+import { gtmId } from '../consent';
+import Tracking from '../components/Tracking.astro';
 
 interface Props {
   lang: Lang;
@@ -107,11 +109,11 @@ const ogImage = new URL('/social-card.png', Astro.site);
           <p>{t.contactText}</p>
         </div>
         <div class="contact-links">
-          <a class="button amber" href={`mailto:${contact.email}`}>{t.email}<Arrow diagonal /></a>
-          <a class="email-link" href={`mailto:${contact.email}`}>{contact.email}</a>
+          <a class="button amber" href={`mailto:${contact.email}`} data-track="contact_click" data-track-method="email">{t.email}<Arrow diagonal /></a>
+          <a class="email-link" href={`mailto:${contact.email}`} data-track="contact_click" data-track-method="email">{contact.email}</a>
           <div class="social-links">
-            <a href={contact.linkedin} target="_blank" rel="me noopener noreferrer">LinkedIn <Arrow diagonal /></a>
-            <a href={contact.github} target="_blank" rel="me noopener noreferrer">GitHub <Arrow diagonal /></a>
+            <a href={contact.linkedin} target="_blank" rel="me noopener noreferrer" data-track="contact_click" data-track-method="linkedin">LinkedIn <Arrow diagonal /></a>
+            <a href={contact.github} target="_blank" rel="me noopener noreferrer" data-track="contact_click" data-track-method="github">GitHub <Arrow diagonal /></a>
           </div>
         </div>
       </div>
@@ -121,9 +123,15 @@ const ogImage = new URL('/social-card.png', Astro.site);
       <div class="container">
         <a class="wordmark" href={path(lang)}>eric ramos souza<span>.</span></a>
         <span>{t.footer}</span>
+        <span class="footer-links">
+          <a href={path(lang, '/privacy/')}>{t.privacy}</a>
+          {gtmId && <button type="button" data-consent-open>{t.consent.settings}</button>}
+        </span>
         <span>© {new Date().getFullYear()} Eric Ramos Souza</span>
       </div>
     </footer>
+
+    {gtmId && <Tracking lang={lang} />}
 
     <script>
       // Mobile menu: toggle, close on link click and on Escape (returning focus to the button).

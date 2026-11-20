@@ -1,0 +1,75 @@
+---
+/** Privacy notice, shared by `/privacy/` and `/pt/privacy/`. Keep it in sync with the tags in the GTM container (`gtm/`). */
+import Base from '../layouts/Base.astro';
+import { contact, path, ui, type Lang } from '../i18n';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+
+const text = {
+  en: {
+    label: 'PRIVACY',
+    title: 'What this site collects, and why.',
+    sections: [
+      [
+        'Your choice comes first',
+        'Analytics and marketing cookies stay off until you accept them in the banner. You can change your mind at any time with “Cookie settings” at the bottom of every page.',
+      ],
+      [
+        'Analytics',
+        'With your consent, Google Analytics 4 counts visits, pages read, where visitors come from and clicks on contact links, and Microsoft Clarity records clicks, scrolling and anonymised session replays to show where the site is hard to use. Form fields and text you type are masked. Without consent, these tools only receive cookieless, aggregated signals.',
+      ],
+      [
+        'Marketing',
+        'If I run ads (Google Ads, Meta, LinkedIn), their tags only use cookies after you accept marketing, to measure whether a campaign brought visits or contacts.',
+      ],
+      [
+        'What I do not do',
+        'I don’t sell data, I don’t build profiles of individual visitors, and I don’t combine this data with anything else. Retention and processing follow each provider’s terms (Google, Microsoft, Meta, LinkedIn).',
+      ],
+      ['Questions', `Write to ${contact.email} to ask about or request deletion of data related to you.`],
+    ],
+  },
+  pt: {
+    label: 'PRIVACIDADE',
+    title: 'O que este site coleta, e por quê.',
+    sections: [
+      [
+        'Sua escolha vem primeiro',
+        'Cookies de análise e de marketing ficam desligados até você aceitá-los no banner. Você pode mudar de ideia a qualquer momento em “Preferências de cookies”, no rodapé de todas as páginas.',
+      ],
+      [
+        'Análise',
+        'Com seu consentimento, o Google Analytics 4 conta visitas, páginas lidas, a origem do acesso e cliques nos links de contato, e o Microsoft Clarity registra cliques, rolagem e gravações anonimizadas de sessão para mostrar onde o site é difícil de usar. Campos de formulário e textos digitados são mascarados. Sem consentimento, essas ferramentas recebem apenas sinais agregados, sem cookies.',
+      ],
+      [
+        'Marketing',
+        'Se eu fizer anúncios (Google Ads, Meta, LinkedIn), as tags dessas plataformas só usam cookies depois que você aceita marketing, para medir se uma campanha trouxe visitas ou contatos.',
+      ],
+      [
+        'O que eu não faço',
+        'Não vendo dados, não monto perfis de visitantes individuais e não cruzo esses dados com outras fontes. Retenção e tratamento seguem os termos de cada fornecedor (Google, Microsoft, Meta, LinkedIn).',
+      ],
+      ['Dúvidas', `Escreva para ${contact.email} para perguntar sobre dados relacionados a você ou pedir que sejam apagados.`],
+    ],
+  },
+}[lang];
+---
+
+<Base lang={lang} title={ui[lang].privacy} alternate={path(lang === 'en' ? 'pt' : 'en', '/privacy/')}>
+  <section class="section listing-page container privacy-page">
+    <p class="eyebrow">{text.label}</p>
+    <h1>{text.title}</h1>
+    {
+      text.sections.map(([heading, body]) => (
+        <>
+          <h2>{heading}</h2>
+          <p class="page-description">{body}</p>
+        </>
+      ))
+    }
+  </section>
+</Base>

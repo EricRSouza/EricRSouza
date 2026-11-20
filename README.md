@@ -50,3 +50,5 @@ Projects use the case-study layout (media, "At a glance", body); articles and no
 | `src/lib/analytics.ts` | Synthetic dataset and margin maths behind the explorer (tested in `tests/`) |
 | `src/pages/` | Thin routes for `/` and `/pt/`, RSS, the CSV download and redirects from the old site |
 | `src/styles/site.css` | All styles |
+| `src/consent.ts`, `src/components/Tracking.astro` | GTM container ID, consent banner (Consent Mode v2) and click events |
+| `gtm/` | Importable GTM container (GA4, Clarity) and setup steps |

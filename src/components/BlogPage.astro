@@ -33,11 +33,11 @@ const blog = path(lang, '/blog/');
 
     <div class="filters">
       <ul class="chips" aria-label={t.filterLabel}>
-        <li><a href={blog} data-filter="type" data-value="" aria-current="true">{t.filterAll}</a></li>
+        <li><a href={blog} data-filter="type" data-value="" data-track="feed_filter" data-track-filter-type="type" data-track-filter-value="all" aria-current="true">{t.filterAll}</a></li>
         {
           usedTypes.map((type) => (
             <li>
-              <a href={`${blog}?type=${type}`} data-filter="type" data-value={type}>
+              <a href={`${blog}?type=${type}`} data-filter="type" data-value={type} data-track="feed_filter" data-track-filter-type="type" data-track-filter-value={type}>
                 {t.typesPlural[type]}
               </a>
             </li>
@@ -49,7 +49,7 @@ const blog = path(lang, '/blog/');
           <ul class="chips tags" aria-label={t.tagLabel}>
             {tags.map(([key, label]) => (
               <li>
-                <a href={`${blog}?tag=${key}`} data-filter="tag" data-value={key}>
+                <a href={`${blog}?tag=${key}`} data-filter="tag" data-value={key} data-track="feed_filter" data-track-filter-type="tag" data-track-filter-value={key}>
                   {label}
                 </a>
               </li>

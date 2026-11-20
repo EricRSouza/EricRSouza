@@ -1836,3 +1836,106 @@ th:first-child {
     gap: 8px;
   }
 }
+
+/* Footer links: privacy notice and the button that reopens the consent banner. */
+.footer-links {
+  display: flex;
+  gap: 16px;
+}
+.footer-links a,
+.footer-links button {
+  padding: 0;
+  border: 0;
+  background: none;
+  font-size: inherit;
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.footer-links a:hover,
+.footer-links button:hover {
+  color: var(--navy);
+}
+
+/* Consent banner (src/components/Tracking.astro). */
+.consent {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 50;
+  width: min(420px, calc(100% - 32px));
+  padding: 24px;
+  background: #fff;
+  border: 1px solid var(--line);
+  box-shadow: 0 18px 50px rgb(11 31 59 / 0.18);
+  font-size: 14px;
+}
+.consent h2 {
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+.consent p {
+  color: var(--muted);
+}
+.consent p a {
+  color: var(--blue);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.consent details {
+  margin-top: 14px;
+}
+.consent summary {
+  color: var(--navy);
+  font-weight: 600;
+  font-size: 13px;
+}
+.consent label {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  margin-top: 14px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.5;
+  cursor: pointer;
+}
+.consent label input {
+  margin-top: 3px;
+  accent-color: var(--navy);
+}
+.consent label strong {
+  display: block;
+  color: var(--navy);
+}
+.consent details .button {
+  margin-top: 16px;
+}
+.consent-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 20px;
+}
+.button.ghost {
+  background: #fff;
+  color: var(--navy);
+}
+.button.ghost:hover {
+  background: var(--ice);
+}
+@media (max-width: 540px) {
+  .consent {
+    right: 16px;
+    bottom: 16px;
+    padding: 20px;
+  }
+}
+.privacy-page h2 {
+  font-size: 22px;
+  margin-top: 48px;
+  color: var(--navy);
+}
+.privacy-page h2 + .page-description {
+  margin-top: 12px;
+}
