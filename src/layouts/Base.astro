@@ -17,7 +17,7 @@ interface Props {
   description?: string;
   /** Root-relative URL of this page in the other language, when one exists. */
   alternate?: string;
-  /** Marks the matching nav item as the current page. */
+  /** Marks the matching nav item as the current page. On the feed, BlogPage moves it between Lab and Projects to follow `?type=`. */
   current?: 'projects' | 'blog' | 'about';
   ogType?: 'website' | 'article';
 }
@@ -66,7 +66,7 @@ const ogImage = new URL('/social-card.png', Astro.site);
       <div class="container header-inner">
         <a class="wordmark" href={path(lang)} aria-label="Eric Ramos Souza — Home">eric ramos souza<span>.</span></a>
         <nav class="desktop-nav" aria-label={t.mainNav}>
-          {nav.map((item) => <a href={item.href} aria-current={item.key && item.key === current ? 'page' : undefined}>{item.label}</a>)}
+          {nav.map((item) => <a href={item.href} data-nav={item.key} aria-current={item.key && item.key === current ? 'page' : undefined}>{item.label}</a>)}
         </nav>
         <div class="header-actions">
           <div class="language-switch" aria-label={t.langLabel}>

@@ -1,6 +1,7 @@
 ---
 /**
- * The unified feed (`/blog/`, `/pt/blog/`): projects, articles and notes in one list, filterable by type and tag.
+ * The unified feed, labelled "Lab" (`/blog/`, `/pt/blog/`): projects, articles and notes in one list, filterable by type and tag.
+ * The "Projects" nav item is just this page with `?type=project`.
  * Filters are plain links (`?type=project`, `?tag=power-bi`) so they work without JS and can be shared;
  * the script applies them in place.
  */
@@ -24,7 +25,7 @@ const tags = [...new Map(posts.flatMap((p) => p.data.tags).map((tag) => [tagKey(
 const blog = path(lang, '/blog/');
 ---
 
-<Base lang={lang} title="Blog" description={t.blogIntro} alternate={path(lang === 'en' ? 'pt' : 'en', '/blog/')} current="blog">
+<Base lang={lang} title={t.nav.blog} description={t.blogIntro} alternate={path(lang === 'en' ? 'pt' : 'en', '/blog/')} current="blog">
   <section class="section listing-page container feed">
     <p class="eyebrow">{t.blogLabel}</p>
     <h1>{t.blogTitle}</h1>
@@ -105,6 +106,13 @@ const blog = path(lang, '/blog/');
       const current = chip.dataset.value === active && (chip.dataset.value !== '' || !tag);
       if (current) chip.setAttribute('aria-current', 'true');
       else chip.removeAttribute('aria-current');
+    }
+
+    // The header's "Projects" item is this feed filtered to projects: highlight it instead of "Lab" while that filter is on.
+    const section = type === 'project' ? 'projects' : 'blog';
+    for (const link of document.querySelectorAll<HTMLAnchorElement>('.desktop-nav [data-nav="projects"], .desktop-nav [data-nav="blog"]')) {
+      if (link.dataset.nav === section) link.setAttribute('aria-current', 'page');
+      else link.removeAttribute('aria-current');
     }
 
     const empty = document.querySelector<HTMLElement>('.feed .feed-empty');
