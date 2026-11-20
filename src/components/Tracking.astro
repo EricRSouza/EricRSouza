@@ -1,0 +1,110 @@
+---
+/**
+ * Consent banner plus the script that loads Google Tag Manager. Rendered by Base on every page when `gtmId` is set.
+ * Any footer button with `data-consent-open` reopens the banner.
+ * Clicks on elements with `data-track="<event>"` push that event to the dataLayer, with each
+ * `data-track-<param>` attribute as a snake_case parameter (`data-track-filter-type="tag"` → `filter_type: 'tag'`).
+ * GTM forwards these events to GA4 (see `gtm/README.md`).
+ */
+import { path, ui, type Lang } from '../i18n';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = ui[lang].consent;
+---
+
+<section class="consent" id="consent" role="dialog" aria-labelledby="consent-title" hidden>
+  <h2 id="consent-title">{t.title}</h2>
+  <p>{t.text} <a href={path(lang, '/privacy/')}>{t.more}</a></p>
+  <details>
+    <summary>{t.choose}</summary>
+    <label>
+      <input type="checkbox" name="analytics" />
+      <span><strong>{t.analytics}</strong>{t.analyticsHint}</span>
+    </label>
+    <label>
+      <input type="checkbox" name="ads" />
+      <span><strong>{t.ads}</strong>{t.adsHint}</span>
+    </label>
+    <button type="button" class="button small ghost" data-consent="save">{t.save}</button>
+  </details>
+  <div class="consent-actions">
+    <!-- Reject and accept look the same on purpose: refusing must be as easy as accepting. -->
+    <button type="button" class="button small" data-consent="reject">{t.reject}</button>
+    <button type="button" class="button small" data-consent="accept">{t.accept}</button>
+  </div>
+</section>
+
+<script>
+  import { googleConsent, gtmId, layerConsent, parseChoice, storageKey, type Choice } from '../consent';
+
+  const w = window as Window & { dataLayer?: unknown[] };
+  const dataLayer = (w.dataLayer ??= []);
+  // GTM only treats pushed `arguments` objects as gtag commands, so this cannot be an arrow function.
+  function gtag(..._args: unknown[]) {
+    dataLayer.push(arguments);
+  }
+
+  let stored: Choice | null = null;
+  try {
+    stored = parseChoice(localStorage.getItem(storageKey));
+  } catch {
+    // Storage blocked: behave as if no choice was made.
+  }
+
+  // Consent defaults must be in the dataLayer before GTM loads.
+  gtag('consent', 'default', googleConsent({ analytics: false, ads: false }));
+  if (stored) gtag('consent', 'update', googleConsent(stored));
+  dataLayer.push(layerConsent(stored ?? { analytics: false, ads: false }));
+  dataLayer.push({ 'gtm.start': Date.now(), event: 'gtm.js' });
+  const loader = document.createElement('script');
+  loader.async = true;
+  loader.src = `https://www.googletagmanager.com/gtm.js?id=${gtmId}`;
+  document.head.append(loader);
+
+  const banner = document.getElementById('consent')!;
+  const box = (name: keyof Choice) => banner.querySelector<HTMLInputElement>(`input[name="${name}"]`)!;
+
+  function open(choice: Choice | null) {
+    box('analytics').checked = choice?.analytics ?? false;
+    box('ads').checked = choice?.ads ?? false;
+    banner.querySelector('details')!.open = Boolean(choice);
+    banner.hidden = false;
+  }
+
+  function save(choice: Choice) {
+    try {
+      localStorage.setItem(storageKey, JSON.stringify(choice));
+    } catch {
+      // Not persisted; the choice still applies to this page.
+    }
+    stored = choice;
+    gtag('consent', 'update', googleConsent(choice));
+    dataLayer.push({ event: 'consent_update', ...layerConsent(choice) });
+    banner.hidden = true;
+  }
+
+  banner.addEventListener('click', (event) => {
+    const action = (event.target as Element).closest<HTMLElement>('[data-consent]')?.dataset.consent;
+    if (action === 'accept') save({ analytics: true, ads: true });
+    if (action === 'reject') save({ analytics: false, ads: false });
+    if (action === 'save') save({ analytics: box('analytics').checked, ads: box('ads').checked });
+  });
+
+  if (!stored) open(null);
+
+  document.addEventListener('click', (event) => {
+    const target = event.target as Element;
+    if (target.closest('[data-consent-open]')) return open(stored);
+
+    const el = target.closest<HTMLElement>('[data-track]');
+    if (!el) return;
+    const params = Object.entries(el.dataset)
+      .filter(([key]) => key.startsWith('track') && key !== 'track')
+      .map(([key, value]) => [key.slice('track'.length).replace(/[A-Z]/g, (c, i) => (i ? '_' : '') + c.toLowerCase()), value]);
+    dataLayer.push({ event: el.dataset.track, ...Object.fromEntries(params) });
+  });
+</script>

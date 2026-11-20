@@ -121,7 +121,7 @@ const localHref = (href: string) => (href.startsWith('#') ? href : path(lang, hr
         <div class="tool-list"><span>Power BI</span><span>SQL</span><span>Python</span><span>Databricks</span></div>
         <div class="about-links">
           <a class="text-link" href={path(lang, '/about/')}>{t.aboutMore}<Arrow /></a>
-          <a class="text-link" href={contact.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn<Arrow diagonal /></a>
+          <a class="text-link" href={contact.linkedin} target="_blank" rel="noopener noreferrer" data-track="contact_click" data-track-method="linkedin">LinkedIn<Arrow diagonal /></a>
         </div>
       </div>
       <div class="method">
