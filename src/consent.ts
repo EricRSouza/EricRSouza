@@ -7,7 +7,7 @@
  */
 
 /** GTM container ID. Empty disables GTM, the consent banner and the cookie-settings link. */
-export const gtmId = '';
+export const gtmId = 'GTM-PTCLG76';
 
 export const storageKey = 'consent.v1';
 
