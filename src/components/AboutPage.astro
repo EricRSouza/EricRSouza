@@ -1,0 +1,145 @@
+---
+/** About page body, shared by `/about/` and `/pt/about/`. Bio and experience live here, in both languages. */
+import Base from '../layouts/Base.astro';
+import { Arrow } from '../react/Icons';
+import { contact, path, type Lang } from '../i18n';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+type Text = Record<Lang, string>;
+
+/** Most recent first. */
+const experience: { period: string; role: Text; org: string; summary: Text }[] = [
+  {
+    period: '2023 –',
+    role: { en: 'Senior Business Intelligence Analyst', pt: 'Senior Business Intelligence Analyst' },
+    org: 'NTT DATA Europe & Latam',
+    summary: {
+      en: 'Data consultant on large client projects. For Anheuser-Busch InBev, I structure marketing and finance data (orders, customer behaviour, campaigns, recommendations) and build the dashboards teams use to track them. Before that, for Visa, I mapped every card process at Banco XP and built the data structure and dashboards behind them: card delivery, benefits usage, declined purchases, chargebacks, the fraud engine, credit and debt renegotiation.',
+      pt: 'Consultor de dados em projetos de grande porte. Para a Anheuser-Busch InBev, estruturo dados de marketing e finanças (pedidos, comportamento de clientes, campanhas, recomendações) e construo os dashboards que os times usam para acompanhá-los. Antes, para a Visa, mapeei todos os processos de cartões do Banco XP e construí a estrutura de dados e os dashboards de cada área: entrega de cartões, uso de benefícios, compras negadas, contestações, motor de fraude, crédito e renegociação de dívidas.',
+    },
+  },
+  {
+    period: '2022 – 2023',
+    role: { en: 'Business Intelligence Analyst', pt: 'Business Intelligence Analyst' },
+    org: 'Grupo Senff',
+    summary: {
+      en: 'Mentored junior analysts, managed data across several databases and data lakes, migrated the company’s dashboards to Power BI, extracted data from REST APIs and set up a standard for documentation.',
+      pt: 'Orientei analistas juniores, gerenciei dados em diversos bancos e data lakes, migrei os dashboards da empresa para o Power BI, extraí dados de APIs REST e criei um padrão de documentação.',
+    },
+  },
+  {
+    period: '2020 – 2022',
+    role: { en: 'Business Intelligence Analyst', pt: 'Business Intelligence Analyst' },
+    org: 'Aura Pharma',
+    summary: {
+      en: 'Built ETL from unstructured sources of patient data, plus data models, KPIs and automated reports that improved customer experience and retention. Also ran the company’s websites and e-commerce projects with Scrum and Kanban.',
+      pt: 'Construí ETL a partir de fontes não estruturadas de dados de pacientes, além de modelos de dados, KPIs e relatórios automatizados que melhoraram a experiência e a retenção de clientes. Também conduzi os projetos de sites e e-commerce da empresa com Scrum e Kanban.',
+    },
+  },
+  {
+    period: '2020 – 2021',
+    role: { en: 'Data Analyst', pt: 'Analista de Dados' },
+    org: 'Porteiros no Comando · Clube do Audiovisual',
+    summary: {
+      en: 'Short projects: cleaning and validating a dataset of 8,000+ customers, and financial ETL with Power BI dashboards and team training.',
+      pt: 'Projetos curtos: limpeza e validação de uma base de mais de 8.000 clientes, e ETL financeiro com dashboards em Power BI e treinamento da equipe.',
+    },
+  },
+  {
+    period: '2015 – 2019',
+    role: { en: 'Before data', pt: 'Antes dos dados' },
+    org: '',
+    summary: {
+      en: 'Civil engineering intern at Piraquara city hall, where I automated material quotes and reported to the infrastructure secretary, and administrative assistant in manufacturing, tracking inventory. Both pulled me towards data.',
+      pt: 'Estagiário de engenharia civil na Prefeitura de Piraquara, onde automatizei cotações de materiais e apresentei relatórios ao secretário de infraestrutura, e assistente administrativo na indústria, controlando estoque. Os dois me puxaram para os dados.',
+    },
+  },
+];
+
+const text = {
+  en: {
+    title: 'About',
+    intro: [
+      'I’m Eric, a business intelligence analyst. Since 2020 I’ve been turning operational data into things people use to decide: data models, KPIs and dashboards for finance, sales, marketing, after-sales and customer behaviour.',
+      'Most of my work sits between engineering and the business. I map how a process actually works, structure the data so analysts can trust it, and design dashboards around the decisions they need to support. I’ve led internal teams and worked alongside software, marketing, sales, finance and engineering teams at client companies.',
+    ],
+    helpTitle: 'What I can help with',
+    help: [
+      ['Dashboards that get used', 'Executive and operational dashboards in Power BI, designed around the questions a team asks every week.'],
+      ['Data models people can trust', 'Star schemas and bronze, silver and gold layers in Databricks, with metrics that mean the same thing everywhere.'],
+      ['Commercial and marketing analytics', 'Cross-sell, funnels, cohorts, campaign performance and financial KPIs.'],
+    ],
+    label: 'ABOUT / EXPERIENCE',
+    expTitle: 'EXPERIENCE',
+    toolsTitle: 'Tools',
+    tools: 'Power BI, Tableau, Qlik, Databricks, Dremio, PostgreSQL, SQL Server, BigQuery, MySQL, Python, SQL, R, VBA, Google Analytics.',
+    linkedin: 'Full history on LinkedIn',
+  },
+  pt: {
+    title: 'Sobre',
+    intro: [
+      'Sou o Eric, analista de business intelligence. Desde 2020 transformo dados operacionais em coisas que as pessoas usam para decidir: modelos de dados, KPIs e dashboards de finanças, vendas, marketing, pós-venda e comportamento de clientes.',
+      'A maior parte do meu trabalho fica entre a engenharia e o negócio. Mapeio como um processo funciona de verdade, estruturo os dados para que os analistas confiem neles e desenho dashboards em torno das decisões que eles precisam apoiar. Já liderei times internos e trabalhei com times de software, marketing, comercial, financeiro e engenharia em empresas clientes.',
+    ],
+    helpTitle: 'Como posso ajudar',
+    help: [
+      ['Dashboards que são usados', 'Dashboards executivos e operacionais em Power BI, desenhados em torno das perguntas que o time faz toda semana.'],
+      ['Modelos de dados confiáveis', 'Esquemas estrela e camadas bronze, silver e gold no Databricks, com métricas que significam a mesma coisa em todo lugar.'],
+      ['Analytics comercial e de marketing', 'Cross-sell, funis, coortes, performance de campanhas e KPIs financeiros.'],
+    ],
+    label: 'SOBRE / EXPERIÊNCIA',
+    expTitle: 'EXPERIÊNCIA',
+    toolsTitle: 'Ferramentas',
+    tools: 'Power BI, Tableau, Qlik, Databricks, Dremio, PostgreSQL, SQL Server, BigQuery, MySQL, Python, SQL, R, VBA, Google Analytics.',
+    linkedin: 'Histórico completo no LinkedIn',
+  },
+}[lang];
+---
+
+<Base lang={lang} title={text.title} alternate={path(lang === 'en' ? 'pt' : 'en', '/about/')} current="about">
+  <section class="section listing-page container about-page">
+    <p class="eyebrow">{text.label}</p>
+    <h1>{text.title}</h1>
+    {text.intro.map((p) => <p class="page-description">{p}</p>)}
+
+    <div class="case-grid">
+      <aside>
+        <p class="tiny-label">{text.helpTitle}</p>
+        <dl>
+          {
+            text.help.map(([term, desc]) => (
+              <>
+                <dt>{term}</dt>
+                <dd>{desc}</dd>
+              </>
+            ))
+          }
+          <dt>{text.toolsTitle}</dt>
+          <dd>{text.tools}</dd>
+        </dl>
+      </aside>
+      <div>
+        <p class="eyebrow">{text.expTitle}</p>
+        <ol class="timeline">
+          {
+            experience.map((job) => (
+              <li>
+                <span class="timeline-period">{job.period}</span>
+                <div>
+                  <h2>{job.role[lang]}</h2>
+                  {job.org && <p class="timeline-org">{job.org}</p>}
+                  <p>{job.summary[lang]}</p>
+                </div>
+              </li>
+            ))
+          }
+        </ol>
+        <a class="text-link" href={contact.linkedin} target="_blank" rel="noopener noreferrer">{text.linkedin}<Arrow diagonal /></a>
+      </div>
+    </div>
+  </section>
+</Base>

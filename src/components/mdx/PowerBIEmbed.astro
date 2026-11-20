@@ -1,0 +1,38 @@
+---
+/**
+ * A Power BI "Publish to web" report. The iframe loads only after the reader clicks, so the page stays fast.
+ * Set as a post's `media` (`kind: powerbi`) or used directly in MDX.
+ */
+import type { Lang } from '../../i18n';
+
+interface Props {
+  src: string;
+  title: string;
+  lang: Lang;
+}
+
+const { src, title, lang } = Astro.props;
+const text = {
+  en: { load: 'Load the interactive report', note: 'Power BI report · synthetic data · loads from Microsoft' },
+  pt: { load: 'Carregar o relatório interativo', note: 'Relatório Power BI · dados sintéticos · carregado da Microsoft' },
+}[lang];
+---
+
+<figure class="pbi-embed">
+  <div class="pbi-frame" data-src={src} data-title={title}>
+    <button type="button" class="button">{text.load}</button>
+  </div>
+  <figcaption>{text.note} · <a href={src} target="_blank" rel="noopener noreferrer">{lang === 'pt' ? 'Abrir em tela cheia' : 'Open full screen'}</a></figcaption>
+</figure>
+
+<script>
+  for (const frame of document.querySelectorAll<HTMLElement>('.pbi-frame')) {
+    frame.querySelector('button')?.addEventListener('click', () => {
+      const iframe = document.createElement('iframe');
+      iframe.src = frame.dataset.src ?? '';
+      iframe.title = frame.dataset.title ?? 'Power BI report';
+      iframe.allowFullscreen = true;
+      frame.replaceChildren(iframe);
+    });
+  }
+</script>

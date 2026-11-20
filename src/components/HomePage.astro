@@ -1,0 +1,185 @@
+---
+/** Home page body, shared by `/` (English) and `/pt/` (Portuguese). */
+import Base from '../layouts/Base.astro';
+import ProjectCard from './ProjectCard.astro';
+import { Arrow, ServiceIcon } from '../react/Icons';
+import { RevenueChart } from '../react/RevenueChart';
+import { contact, path, ui, type Lang } from '../i18n';
+import { getPosts, postUrl } from '../posts';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = ui[lang];
+const posts = await getPosts(lang);
+const projects = posts.filter((p) => p.data.type === 'project' && p.data.featured);
+const article = posts.find((p) => p.data.type === 'article' && p.data.featured);
+const localHref = (href: string) => (href.startsWith('#') ? href : path(lang, href));
+---
+
+<Base lang={lang} title={t.homeTitle}>
+  <section class="hero">
+    <div class="container hero-grid">
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="eyebrow-dot"></span>{t.eyebrow}</p>
+        <h1>{t.hero[0]}<br />{t.hero[1]}<br /><em>{t.hero[2]}</em></h1>
+        <p class="hero-description">{t.intro}</p>
+        <div class="hero-actions">
+          <a class="button" href={`${path(lang, '/blog/')}?type=project`}>{t.seeWork}<Arrow /></a>
+          <a class="text-link" href="#contact">{t.contact}<Arrow diagonal /></a>
+        </div>
+        <p class="hero-note">{t.heroNote}</p>
+      </div>
+      <div class="hero-art">
+        <div class="chart-window">
+          <div class="window-bar">
+            <span class="window-dots"><i></i><i></i><i></i></span>
+            <span>DATA / INSIGHTS</span>
+            <span>↗</span>
+          </div>
+          <RevenueChart locale={lang} compact />
+          <a class="chart-window-footer" href={path(lang, '/blog/revenue-grew/')}>
+            <span>{t.heroWindow}</span>
+            <Arrow />
+          </a>
+        </div>
+        <div class="hero-caption"><span class="caption-line"></span>{t.heroCaption}</div>
+      </div>
+    </div>
+    <div class="container expertise-bar">
+      <span>{t.expertiseLabel}</span>
+      <div>
+        <span>{t.expertise[0]}</span><i></i><span>{t.expertise[1]}</span><i></i><span>{t.expertise[2]}</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="section services-section" id="services">
+    <div class="container">
+      <div class="section-intro">
+        <div>
+          <p class="eyebrow">{t.servicesLabel}</p>
+          <h2>{t.servicesTitle}<br /><em>{t.servicesAccent}</em></h2>
+        </div>
+        <p>{t.servicesIntro}</p>
+      </div>
+      <div class="service-grid">
+        {
+          t.services.map((service, index) => (
+            <article class="service-card">
+              <div class="service-top">
+                <ServiceIcon index={index} />
+                <span>0{index + 1}</span>
+              </div>
+              <h3>{service.title}</h3>
+              <p>{service.text}</p>
+              <p class="service-tags">{service.tags}</p>
+              <a class="text-link" href={localHref(service.href)}>
+                {service.link}
+                <Arrow />
+              </a>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  {
+    projects.length > 0 && (
+      <section class="section work-section" id="projects">
+        <div class="container">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">{t.workLabel}</p>
+              <h2>{t.workTitle}</h2>
+            </div>
+            <a class="text-link" href={`${path(lang, '/blog/')}?type=project`}>
+              {t.allProjects}
+              <Arrow />
+            </a>
+          </div>
+          <div class="project-grid">
+            {projects.map((post) => (
+              <ProjectCard post={post} />
+            ))}
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  <section class="section about-section" id="about">
+    <div class="container about-grid">
+      <div>
+        <p class="eyebrow">{t.aboutLabel}</p>
+        <h2>{t.aboutTitle}</h2>
+        <p>{t.aboutText}</p>
+        <p>{t.aboutText2}</p>
+        <div class="tool-list"><span>Power BI</span><span>SQL</span><span>Python</span><span>Databricks</span></div>
+        <div class="about-links">
+          <a class="text-link" href={path(lang, '/about/')}>{t.aboutMore}<Arrow /></a>
+          <a class="text-link" href={contact.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn<Arrow diagonal /></a>
+        </div>
+      </div>
+      <div class="method">
+        <p class="tiny-label">{t.methodTitle}</p>
+        {
+          t.method.map(([title, text], index) => (
+            <div class="method-step">
+              <span>0{index + 1}</span>
+              <div>
+                <h3>{title}</h3>
+                <p>{text}</p>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  {
+    article && (
+      <section class="section articles-section">
+        <div class="container">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">{t.articlesLabel}</p>
+              <h2>{t.articlesTitle}</h2>
+            </div>
+            <a class="text-link" href={path(lang, '/blog/')}>
+              {t.allArticles}
+              <Arrow />
+            </a>
+          </div>
+          <article class="featured-article">
+            <div class="article-art" aria-hidden="true">
+              <span>ƒ(x)</span>
+              <div>{lang === 'pt' ? 'Crescer ≠ lucrar' : 'Growth ≠ profit'}</div>
+              <svg viewBox="0 0 340 120">
+                <path d="M10 106C85 96 65 77 145 67s80-31 180-55" />
+                <path d="M10 36C85 36 95 50 160 56s70 22 165 36" />
+              </svg>
+            </div>
+            <div>
+              <div class="article-meta">
+                <span>{article.data.kicker}</span>
+              </div>
+              <h3>
+                <a href={postUrl(article)}>{article.data.title}</a>
+              </h3>
+              <p>{article.data.description}</p>
+              <a class="text-link" href={postUrl(article)}>
+                {t.read}
+                <Arrow />
+              </a>
+            </div>
+          </article>
+        </div>
+      </section>
+    )
+  }
+</Base>

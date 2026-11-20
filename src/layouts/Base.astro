@@ -1,0 +1,152 @@
+---
+/** Page shell for every route: head tags, header with menu and language switch, contact section and footer. */
+import '@fontsource/inter/latin-400.css';
+import '@fontsource/inter/latin-500.css';
+import '@fontsource/inter/latin-600.css';
+import '@fontsource/inter/latin-700.css';
+import '@fontsource/source-serif-4/latin-400-italic.css';
+import '@fontsource/source-serif-4/latin-400.css';
+import '@fontsource/source-serif-4/latin-600.css';
+import '../styles/site.css';
+import { Arrow } from '../react/Icons';
+import { contact, htmlLang, path, ui, type Lang } from '../i18n';
+
+interface Props {
+  lang: Lang;
+  title: string;
+  description?: string;
+  /** Root-relative URL of this page in the other language, when one exists. */
+  alternate?: string;
+  /** Marks the matching nav item as the current page. */
+  current?: 'projects' | 'blog' | 'about';
+  ogType?: 'website' | 'article';
+}
+
+const { lang, title, description = ui[lang].siteDescription, alternate, current, ogType = 'website' } = Astro.props;
+const t = ui[lang];
+const other: Lang = lang === 'en' ? 'pt' : 'en';
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const self = Astro.url.pathname;
+const hrefFor = { [lang]: self, [other]: alternate ?? path(other) } as Record<Lang, string>;
+const nav = [
+  { label: t.nav.services, href: `${path(lang)}#services` },
+  { label: t.nav.projects, href: `${path(lang, '/blog/')}?type=project`, key: 'projects' },
+  { label: t.nav.about, href: path(lang, '/about/'), key: 'about' },
+  { label: t.nav.blog, href: path(lang, '/blog/'), key: 'blog' },
+];
+const ogImage = new URL('/social-card.png', Astro.site);
+---
+
+<!doctype html>
+<html lang={htmlLang[lang]}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0B1F3B" />
+    <title>{`${title} — Eric Ramos Souza`}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang={htmlLang[lang]} href={canonical} />
+    {alternate && <link rel="alternate" hreflang={htmlLang[other]} href={new URL(alternate, Astro.site)} />}
+    <link rel="alternate" type="application/rss+xml" title="Eric Ramos Souza" href={path(lang, '/rss.xml')} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content={htmlLang[lang].replace('-', '_')} />
+    <meta name="twitter:card" content="summary_large_image" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">{t.skip}</a>
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="wordmark" href={path(lang)} aria-label="Eric Ramos Souza — Home">eric ramos souza<span>.</span></a>
+        <nav class="desktop-nav" aria-label={t.mainNav}>
+          {nav.map((item) => <a href={item.href} aria-current={item.key && item.key === current ? 'page' : undefined}>{item.label}</a>)}
+        </nav>
+        <div class="header-actions">
+          <div class="language-switch" aria-label={t.langLabel}>
+            <a lang="pt-BR" href={hrefFor.pt} aria-current={lang === 'pt' ? 'true' : undefined}>PT</a>
+            <span>/</span>
+            <a lang="en" href={hrefFor.en} aria-current={lang === 'en' ? 'true' : undefined}>EN</a>
+          </div>
+          <a class="button small header-contact" href="#contact">{t.contact}<Arrow diagonal /></a>
+          <button
+            type="button"
+            class="menu-toggle"
+            aria-expanded="false"
+            aria-controls="mobile-menu"
+            aria-label={t.menu}
+            data-open-label={t.close}
+            data-closed-label={t.menu}
+          >
+            <span></span>
+            <span></span>
+          </button>
+        </div>
+      </div>
+      <nav class="mobile-nav" id="mobile-menu" hidden aria-label={t.mobileNav}>
+        {nav.map((item) => <a href={item.href}>{item.label}<Arrow /></a>)}
+        <a href="#contact">{t.contact}<Arrow /></a>
+      </nav>
+    </header>
+
+    <main id="main">
+      <slot />
+    </main>
+
+    <section class="contact-section" id="contact" aria-labelledby="contact-title">
+      <div class="container contact-inner">
+        <div>
+          <p class="eyebrow light">{t.contactLabel}</p>
+          <h2 id="contact-title">{t.contactTitle}</h2>
+          <p>{t.contactText}</p>
+        </div>
+        <div class="contact-links">
+          <a class="button amber" href={`mailto:${contact.email}`}>{t.email}<Arrow diagonal /></a>
+          <a class="email-link" href={`mailto:${contact.email}`}>{contact.email}</a>
+          <div class="social-links">
+            <a href={contact.linkedin} target="_blank" rel="me noopener noreferrer">LinkedIn <Arrow diagonal /></a>
+            <a href={contact.github} target="_blank" rel="me noopener noreferrer">GitHub <Arrow diagonal /></a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <div class="container">
+        <a class="wordmark" href={path(lang)}>eric ramos souza<span>.</span></a>
+        <span>{t.footer}</span>
+        <span>© {new Date().getFullYear()} Eric Ramos Souza</span>
+      </div>
+    </footer>
+
+    <script>
+      // Mobile menu: toggle, close on link click and on Escape (returning focus to the button).
+      const button = document.querySelector<HTMLButtonElement>('.menu-toggle');
+      const menu = document.getElementById('mobile-menu');
+      if (button && menu) {
+        const setOpen = (open: boolean) => {
+          menu.hidden = !open;
+          button.setAttribute('aria-expanded', String(open));
+          button.setAttribute('aria-label', (open ? button.dataset.openLabel : button.dataset.closedLabel) ?? '');
+          button.classList.toggle('is-open', open);
+        };
+        button.addEventListener('click', () => setOpen(Boolean(menu.hidden)));
+        menu.addEventListener('click', (event) => {
+          if ((event.target as Element).closest('a')) setOpen(false);
+        });
+        document.addEventListener('keydown', (event) => {
+          if (event.key === 'Escape' && !menu.hidden) {
+            setOpen(false);
+            button.focus();
+          }
+        });
+      }
+    </script>
+  </body>
+</html>
