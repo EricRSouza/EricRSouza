@@ -1,0 +1,18 @@
+---
+import Base from '../layouts/Base.astro';
+import { ui } from '../i18n';
+---
+
+<Base lang="en" title={ui.en.notFoundTitle}>
+  <h1>{ui.en.notFoundTitle}</h1>
+  <p>{ui.en.notFoundBody} <a href="/">{ui.en.backHome}</a></p>
+  <p lang="pt-BR" class="muted">{ui.pt.notFoundBody} <a href="/pt/">{ui.pt.backHome}</a></p>
+</Base>
+
+<style>
+  h1 {
+    font-size: clamp(2.25rem, 7vw, 3.5rem);
+    font-stretch: 80%;
+    margin-bottom: 1.5rem;
+  }
+</style>

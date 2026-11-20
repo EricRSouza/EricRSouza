@@ -1,0 +1,155 @@
+---
+/** Home page body, shared by `/` (English) and `/pt/` (Portuguese). */
+import Base from '../layouts/Base.astro';
+import Feed from './Feed.astro';
+import { path, ui, type Lang } from '../i18n';
+import { getPosts, postUrl } from '../posts';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = ui[lang];
+const posts = await getPosts(lang);
+// Pinned posts; the section is skipped while it would just repeat the whole feed.
+const pinned = posts.filter((p) => p.data.featured);
+const featured = pinned.length < posts.length ? pinned : [];
+
+const intro = {
+  en: {
+    lead: 'I’m a business intelligence analyst and data consultant. I build the data models and dashboards that teams use to make decisions, and I write here about how they’re made.',
+    status: 'Open to remote roles and consulting projects. Based in Brazil, UTC−3.',
+    contact: 'Get in touch on LinkedIn',
+    more: 'More about me',
+  },
+  pt: {
+    lead: 'Sou analista de business intelligence e consultor de dados. Construo os modelos de dados e dashboards que times usam para decidir, e escrevo aqui sobre como eles são feitos.',
+    status: 'Aberto a vagas remotas e projetos de consultoria. No Brasil, UTC−3.',
+    contact: 'Fale comigo no LinkedIn',
+    more: 'Mais sobre mim',
+  },
+}[lang];
+---
+
+<Base lang={lang} title="Eric Ramos Souza" current="home">
+  <section class="hero">
+    <h1>Eric Ramos Souza</h1>
+    <p class="lead">{intro.lead}</p>
+    <p class="status sans">{intro.status}</p>
+    <p class="links sans">
+      <a href="https://www.linkedin.com/in/ericramossouzadataanalyst/" rel="me">{intro.contact}</a>
+      <a href={path(lang, '/about/')}>{intro.more}</a>
+    </p>
+  </section>
+
+  {
+    featured.length > 0 && (
+      <section class="featured" aria-labelledby="featured-title">
+        <h2 id="featured-title" class="section-title">
+          {t.featured}
+        </h2>
+        {featured.map((post) => (
+          <a class="feature" href={postUrl(post)} data-type={post.data.type}>
+            <span class="kind sans">
+              <span class="swatch" aria-hidden="true" />
+              {t.types[post.data.type]}
+            </span>
+            <span class="feature-title">{post.data.title}</span>
+            <span class="feature-desc">{post.data.description}</span>
+          </a>
+        ))}
+      </section>
+    )
+  }
+
+  <Feed lang={lang} posts={posts} />
+</Base>
+
+<style>
+  .hero {
+    margin-bottom: clamp(3rem, 9vw, 5rem);
+  }
+
+  h1 {
+    font-size: clamp(2.75rem, 11vw, 5.25rem);
+    font-weight: 750;
+    font-stretch: 78%;
+    line-height: 0.95;
+    letter-spacing: -0.025em;
+  }
+
+  .lead {
+    max-width: 36rem;
+    margin: 1.5rem 0 0;
+    font-size: clamp(1.2rem, 2.4vw, 1.4rem);
+    line-height: 1.5;
+  }
+
+  .status {
+    margin: 1rem 0 0;
+    color: var(--muted);
+    font-size: 1rem;
+  }
+
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.5rem;
+    margin: 1.25rem 0 0;
+    font-size: 1rem;
+    font-weight: 600;
+  }
+
+  .featured {
+    margin-bottom: 3.5rem;
+  }
+
+  .section-title {
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--muted);
+  }
+
+  .feature {
+    display: grid;
+    gap: 0.5rem;
+    padding: 1.5rem;
+    border: 1px solid var(--rule);
+    border-left: 6px solid var(--swatch);
+    border-radius: 4px;
+    background: var(--surface);
+    color: var(--ink);
+    text-decoration: none;
+  }
+
+  .feature + .feature {
+    margin-top: 1rem;
+  }
+
+  .feature:hover {
+    border-color: var(--muted);
+    border-left-color: var(--swatch);
+  }
+
+  .kind {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5em;
+    font-size: 0.9rem;
+    color: var(--muted);
+  }
+
+  .feature-title {
+    font-family: var(--sans);
+    font-size: clamp(1.4rem, 3.5vw, 1.8rem);
+    font-weight: 650;
+    line-height: 1.15;
+    text-wrap: balance;
+  }
+
+  .feature-desc {
+    color: var(--muted);
+  }
+</style>

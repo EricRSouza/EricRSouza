@@ -1,0 +1,235 @@
+---
+/** About page body, shared by `/about/` and `/pt/about/`. Bio and experience live here, in both languages. */
+import Base from '../layouts/Base.astro';
+import { path, type Lang } from '../i18n';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+type Text = Record<Lang, string>;
+
+/** Most recent first. */
+const experience: { period: string; role: Text; org: string; summary: Text }[] = [
+  {
+    period: '2023 –',
+    role: { en: 'Senior Business Intelligence Analyst', pt: 'Senior Business Intelligence Analyst' },
+    org: 'NTT DATA Europe & Latam',
+    summary: {
+      en: 'Data consultant on large client projects. For Anheuser-Busch InBev, I structure marketing and finance data (orders, customer behaviour, campaigns, recommendations) and build the dashboards teams use to track them. Before that, for Visa, I mapped every card process at Banco XP and built the data structure and dashboards behind them: card delivery, benefits usage, declined purchases, chargebacks, the fraud engine, credit and debt renegotiation.',
+      pt: 'Consultor de dados em projetos de grande porte. Para a Anheuser-Busch InBev, estruturo dados de marketing e finanças (pedidos, comportamento de clientes, campanhas, recomendações) e construo os dashboards que os times usam para acompanhá-los. Antes, para a Visa, mapeei todos os processos de cartões do Banco XP e construí a estrutura de dados e os dashboards de cada área: entrega de cartões, uso de benefícios, compras negadas, contestações, motor de fraude, crédito e renegociação de dívidas.',
+    },
+  },
+  {
+    period: '2022 – 2023',
+    role: { en: 'Business Intelligence Analyst', pt: 'Business Intelligence Analyst' },
+    org: 'Grupo Senff',
+    summary: {
+      en: 'Mentored junior analysts, managed data across several databases and data lakes, migrated the company’s dashboards to Power BI, extracted data from REST APIs and set up a standard for documentation.',
+      pt: 'Orientei analistas juniores, gerenciei dados em diversos bancos e data lakes, migrei os dashboards da empresa para o Power BI, extraí dados de APIs REST e criei um padrão de documentação.',
+    },
+  },
+  {
+    period: '2020 – 2022',
+    role: { en: 'Business Intelligence Analyst', pt: 'Business Intelligence Analyst' },
+    org: 'Aura Pharma',
+    summary: {
+      en: 'Built ETL from unstructured sources of patient data, plus data models, KPIs and automated reports that improved customer experience and retention. Also ran the company’s websites and e-commerce projects with Scrum and Kanban.',
+      pt: 'Construí ETL a partir de fontes não estruturadas de dados de pacientes, além de modelos de dados, KPIs e relatórios automatizados que melhoraram a experiência e a retenção de clientes. Também conduzi os projetos de sites e e-commerce da empresa com Scrum e Kanban.',
+    },
+  },
+  {
+    period: '2020 – 2021',
+    role: { en: 'Data Analyst', pt: 'Analista de Dados' },
+    org: 'Porteiros no Comando · Clube do Audiovisual',
+    summary: {
+      en: 'Short projects: cleaning and validating a dataset of 8,000+ customers, and financial ETL with Power BI dashboards and team training.',
+      pt: 'Projetos curtos: limpeza e validação de uma base de mais de 8.000 clientes, e ETL financeiro com dashboards em Power BI e treinamento da equipe.',
+    },
+  },
+  {
+    period: '2015 – 2019',
+    role: { en: 'Before data', pt: 'Antes dos dados' },
+    org: '',
+    summary: {
+      en: 'Civil engineering intern at Piraquara city hall, where I automated material quotes and reported to the infrastructure secretary, and administrative assistant in manufacturing, tracking inventory. Both pulled me towards data.',
+      pt: 'Estagiário de engenharia civil na Prefeitura de Piraquara, onde automatizei cotações de materiais e apresentei relatórios ao secretário de infraestrutura, e assistente administrativo na indústria, controlando estoque. Os dois me puxaram para os dados.',
+    },
+  },
+];
+
+const text = {
+  en: {
+    title: 'About',
+    intro: [
+      'I’m Eric, a business intelligence analyst. Since 2020 I’ve been turning operational data into things people use to decide: data models, KPIs and dashboards for finance, sales, marketing, after-sales and customer behaviour.',
+      'Most of my work sits between engineering and the business. I map how a process actually works, structure the data so analysts can trust it, and design dashboards around the decisions they need to support. I’ve led internal teams and worked alongside software, marketing, sales, finance and engineering teams at client companies.',
+    ],
+    helpTitle: 'What I can help with',
+    help: [
+      ['Dashboards that get used', 'Executive and operational dashboards in Power BI, designed around the questions a team asks every week.'],
+      ['Data models people can trust', 'Star schemas and bronze, silver and gold layers in Databricks, with metrics that mean the same thing everywhere.'],
+      ['Commercial and marketing analytics', 'Cross-sell, funnels, cohorts, campaign performance and financial KPIs.'],
+    ],
+    expTitle: 'Experience',
+    toolsTitle: 'Tools',
+    tools: 'Power BI, Tableau, Qlik, Databricks, Dremio, PostgreSQL, SQL Server, BigQuery, MySQL, Python, SQL, R, VBA, Google Analytics.',
+    contactTitle: 'Contact',
+    contact: 'I’m open to remote roles and consulting projects. The best way to reach me is a message on',
+    writing: 'You can also see what I’m working on in the',
+    writingLink: 'posts and case studies',
+  },
+  pt: {
+    title: 'Sobre',
+    intro: [
+      'Sou o Eric, analista de business intelligence. Desde 2020 transformo dados operacionais em coisas que as pessoas usam para decidir: modelos de dados, KPIs e dashboards de finanças, vendas, marketing, pós-venda e comportamento de clientes.',
+      'A maior parte do meu trabalho fica entre a engenharia e o negócio. Mapeio como um processo funciona de verdade, estruturo os dados para que os analistas confiem neles e desenho dashboards em torno das decisões que eles precisam apoiar. Já liderei times internos e trabalhei com times de software, marketing, comercial, financeiro e engenharia em empresas clientes.',
+    ],
+    helpTitle: 'Como posso ajudar',
+    help: [
+      ['Dashboards que são usados', 'Dashboards executivos e operacionais em Power BI, desenhados em torno das perguntas que o time faz toda semana.'],
+      ['Modelos de dados confiáveis', 'Esquemas estrela e camadas bronze, silver e gold no Databricks, com métricas que significam a mesma coisa em todo lugar.'],
+      ['Analytics comercial e de marketing', 'Cross-sell, funis, coortes, performance de campanhas e KPIs financeiros.'],
+    ],
+    expTitle: 'Experiência',
+    toolsTitle: 'Ferramentas',
+    tools: 'Power BI, Tableau, Qlik, Databricks, Dremio, PostgreSQL, SQL Server, BigQuery, MySQL, Python, SQL, R, VBA, Google Analytics.',
+    contactTitle: 'Contato',
+    contact: 'Estou aberto a vagas remotas e projetos de consultoria. O melhor jeito de falar comigo é por mensagem no',
+    writing: 'Você também pode ver no que estou trabalhando nos',
+    writingLink: 'posts e cases',
+  },
+}[lang];
+---
+
+<Base lang={lang} title={text.title} alternate={path(lang === 'en' ? 'pt' : 'en', '/about/')} current="about">
+  <h1>{text.title}</h1>
+  <div class="intro">
+    {text.intro.map((p) => <p>{p}</p>)}
+  </div>
+
+  <section>
+    <h2>{text.helpTitle}</h2>
+    <dl class="help">
+      {
+        text.help.map(([term, desc]) => (
+          <div>
+            <dt class="sans">{term}</dt>
+            <dd>{desc}</dd>
+          </div>
+        ))
+      }
+    </dl>
+  </section>
+
+  <section>
+    <h2>{text.expTitle}</h2>
+    <ol class="timeline">
+      {
+        experience.map((job) => (
+          <li>
+            <span class="period sans muted">{job.period}</span>
+            <div>
+              <h3>{job.role[lang]}</h3>
+              {job.org && <p class="org sans muted">{job.org}</p>}
+              <p>{job.summary[lang]}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+  </section>
+
+  <section>
+    <h2>{text.toolsTitle}</h2>
+    <p>{text.tools}</p>
+  </section>
+
+  <section>
+    <h2>{text.contactTitle}</h2>
+    <p>
+      {text.contact} <a href="https://www.linkedin.com/in/ericramossouzadataanalyst/" rel="me">LinkedIn</a>.
+      {text.writing} <a href={path(lang)}>{text.writingLink}</a>.
+    </p>
+  </section>
+</Base>
+
+<style>
+  h1 {
+    font-size: clamp(2.5rem, 8vw, 4rem);
+    font-weight: 750;
+    font-stretch: 78%;
+    line-height: 1;
+  }
+
+  .intro {
+    margin-top: 1.5rem;
+    font-size: 1.25rem;
+  }
+
+  section {
+    margin-top: 3.5rem;
+  }
+
+  h2 {
+    margin-bottom: 1.25rem;
+    font-size: 1.5rem;
+    font-weight: 650;
+  }
+
+  .help {
+    display: grid;
+    gap: 1.25rem;
+    margin: 0;
+  }
+
+  dt {
+    font-weight: 650;
+  }
+
+  dd {
+    margin: 0.2rem 0 0;
+    color: var(--muted);
+  }
+
+  .timeline {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .timeline li {
+    display: grid;
+    grid-template-columns: 7.5rem 1fr;
+    gap: 0.25rem 1.25rem;
+    padding-block: 1.25rem;
+    border-top: 1px solid var(--rule);
+  }
+
+  .period {
+    padding-top: 0.15rem;
+    font-size: 0.95rem;
+    font-variant-numeric: tabular-nums;
+  }
+
+  h3 {
+    font-size: 1.15rem;
+    font-weight: 650;
+  }
+
+  .org {
+    margin: 0.15rem 0 0;
+    font-size: 0.95rem;
+  }
+
+  .timeline p:last-child {
+    margin: 0.5rem 0 0;
+  }
+
+  @media (max-width: 40rem) {
+    .timeline li {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

@@ -1,0 +1,22 @@
+---
+title: How interactive posts work
+description: A draft that shows the building blocks available in posts. Visible only in local development.
+date: 2026-11-20
+type: note
+tags: [Meta]
+draft: true
+---
+
+import AttachRateDemo from '../../../components/mdx/AttachRateDemo.tsx';
+
+Posts are MDX: Markdown that can import components. Text works as usual, and any React component can run inside the post. `client:visible` loads it only when the reader scrolls to it.
+
+<AttachRateDemo client:visible />
+
+The numbers above are illustrative. The same pattern works for a chart library, a DuckDB query over a Parquet file, or a full dashboard.
+
+```mdx
+import AttachRateDemo from '../../../components/mdx/AttachRateDemo.tsx';
+
+<AttachRateDemo client:visible />
+```
