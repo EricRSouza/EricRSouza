@@ -22,9 +22,14 @@ export function isLang(value: string): value is Lang {
   return (langs as readonly string[]).includes(value);
 }
 
-/** Dates as `20.09.2026`, the format used across the site. */
-export function formatDate(date: Date) {
-  return date.toISOString().slice(0, 10).split('-').reverse().join('.');
+/** Formats a post date for the active language (e.g. `Nov 20, 2026` in EN, `20 de nov. de 2026` in PT). */
+export function formatDate(date: Date, lang: Lang = 'en') {
+  return new Intl.DateTimeFormat(htmlLang[lang], {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+    timeZone: 'UTC',
+  }).format(date);
 }
 
 /** Interface strings. Each language must define every key. */
@@ -41,14 +46,15 @@ export const ui = {
     langLabel: 'Language',
     mainNav: 'Main',
     mobileNav: 'Mobile menu',
+    homeAria: 'Eric Ramos Souza — Home',
     eyebrow: 'DATA ANALYSIS · BI · ANALYTICS ENGINEERING',
     hero: ['Well-built data.', 'Clear context.', 'Better decisions.'],
     intro:
       'Connecting business questions to analysis and reliable data. Making information easier to understand — and act on.',
     seeWork: 'Explore my work',
-    heroNote: 'Analyze. Build. Simplify.',
-    heroWindow: 'Numbers grow. So do the questions.',
-    heroCaption: 'An example of what data can reveal.',
+    heroNote: '6+ years in BI & Analytics Engineering · projects for AB InBev, Visa / Banco XP & Grupo Senff.',
+    heroWindow: 'Read the full revenue vs. margin analysis',
+    heroCaption: 'Interactive example: toggle Revenue and Margin above.',
     expertiseLabel: 'FROM QUESTION TO DELIVERY',
     expertise: ['Business Intelligence', 'Analytics Engineering', 'Data visualization'],
     servicesLabel: '01 / HOW I CAN HELP',
@@ -85,7 +91,7 @@ export const ui = {
     aboutLabel: '03 / ABOUT ME',
     aboutTitle: 'I like making complex things easier to understand.',
     aboutText:
-      'I’m Eric Ramos Souza. I enjoy analyzing, automating and building. My work starts with context: understanding the question before choosing a tool, and explaining the thinking behind a solution.',
+      'I’m Eric Ramos Souza. Since 2020 I’ve built data models, KPIs and executive dashboards across finance, sales, marketing and customer behaviour — including large-scale client work for AB InBev, Visa / Banco XP (via NTT DATA) and Grupo Senff.',
     aboutText2:
       'This space brings together data projects, analyses and experiments. A place to share what I build and how I approach business problems.',
     aboutMore: 'My experience',
@@ -105,16 +111,22 @@ export const ui = {
     contactText:
       'Tell me about your context, the data you have and the decision you need to make. We can start there.',
     email: 'Send me an email',
+    copyEmail: 'Copy email',
+    emailCopied: 'Email copied',
     footer: 'Data, context and good questions.',
     back: 'Back',
     blogLabel: 'LAB / PROJECTS & ANALYSES',
     blogTitle: 'Analyses, projects and discoveries.',
+    projectsTitle: 'Selected projects.',
     blogIntro: 'Ideas about data and business, with room to explore, test and understand why.',
     filterAll: 'All',
+    filterGroupType: 'Type',
+    filterGroupTopic: 'Topic',
     filterLabel: 'Filter by type',
     tagLabel: 'Filter by topic',
     clearFilters: 'Clear filters',
     emptyFeed: 'Nothing matches these filters yet.',
+    resultsCount: (n: number) => (n === 1 ? '1 item shown' : `${n} items shown`),
     glance: 'AT A GLANCE',
     notFoundTitle: 'This path didn’t lead to a page.',
     notFoundText: 'You can head back home or explore the lab.',
@@ -125,16 +137,17 @@ export const ui = {
     privacy: 'Privacy',
     consent: {
       title: 'Cookies on this site',
-      text: 'I use cookies to understand how the site is used and, in the future, to measure campaigns. Nothing is set until you choose.',
+      text: 'Optional cookies help me understand which analyses are most useful. Nothing is set until you choose.',
       more: 'Privacy notice',
       analytics: 'Analytics',
       analyticsHint: 'Google Analytics and Microsoft Clarity: visits, clicks and scrolling.',
       ads: 'Marketing',
-      adsHint: 'Ad platforms such as Google Ads, Meta and LinkedIn: campaign results.',
-      choose: 'Choose',
+      adsHint: 'Campaign measurement if ads are active in the future.',
+      choose: 'Customize',
       accept: 'Accept all',
       reject: 'Reject all',
       save: 'Save choice',
+      close: 'Close cookie dialog',
       settings: 'Cookie settings',
     },
   },
@@ -150,14 +163,15 @@ export const ui = {
     langLabel: 'Idioma',
     mainNav: 'Principal',
     mobileNav: 'Menu móvel',
+    homeAria: 'Eric Ramos Souza — Início',
     eyebrow: 'ANÁLISE DE DADOS · BI · ANALYTICS ENGINEERING',
     hero: ['Dados bem', 'construídos.', 'Decisões melhores.'],
     intro:
       'Conecto o problema de negócio à análise e à construção de dados confiáveis. Para que a informação faça sentido — e ajude a decidir.',
     seeWork: 'Explore meu trabalho',
-    heroNote: 'Analisar. Construir. Simplificar.',
-    heroWindow: 'Os números crescem. As perguntas também.',
-    heroCaption: 'Um exemplo do que os dados podem revelar.',
+    heroNote: '6+ anos em BI & Analytics Engineering · projetos para AB InBev, Visa / Banco XP e Grupo Senff.',
+    heroWindow: 'Ler a análise completa de receita vs. margem',
+    heroCaption: 'Exemplo interativo: alterne entre Receita e Margem acima.',
     expertiseLabel: 'DA PERGUNTA À ENTREGA',
     expertise: ['Business Intelligence', 'Analytics Engineering', 'Visualização de dados'],
     servicesLabel: '01 / COMO POSSO AJUDAR',
@@ -194,7 +208,7 @@ export const ui = {
     aboutLabel: '03 / SOBRE MIM',
     aboutTitle: 'Gosto de transformar complexidade em algo que faça sentido.',
     aboutText:
-      'Sou Eric Ramos Souza. Gosto de analisar, automatizar e construir. Meu trabalho parte do contexto: entender a pergunta antes de escolher a ferramenta e explicar o raciocínio por trás da solução.',
+      'Sou Eric Ramos Souza. Desde 2020 construo modelos de dados, KPIs e dashboards para finanças, vendas, marketing e comportamento de clientes — incluindo projetos de grande porte para AB InBev, Visa / Banco XP (via NTT DATA) e Grupo Senff.',
     aboutText2:
       'Este espaço reúne projetos, análises e experimentos em dados. Um lugar para compartilhar o que construo e como penso sobre problemas de negócio.',
     aboutMore: 'Minha trajetória',
@@ -214,16 +228,22 @@ export const ui = {
     contactText:
       'Conte um pouco sobre seu contexto, os dados que tem e a decisão que precisa tomar. Podemos começar por aí.',
     email: 'Escreva para mim',
+    copyEmail: 'Copiar e-mail',
+    emailCopied: 'E-mail copiado',
     footer: 'Dados, contexto e boas perguntas.',
     back: 'Voltar',
     blogLabel: 'LAB / PROJETOS & ANÁLISES',
     blogTitle: 'Análises, projetos e descobertas.',
+    projectsTitle: 'Projetos em foco.',
     blogIntro: 'Ideias sobre dados e negócio, com espaço para explorar, testar e entender o porquê.',
     filterAll: 'Tudo',
+    filterGroupType: 'Tipo',
+    filterGroupTopic: 'Tema',
     filterLabel: 'Filtrar por tipo',
     tagLabel: 'Filtrar por tema',
     clearFilters: 'Limpar filtros',
     emptyFeed: 'Nada corresponde a esses filtros ainda.',
+    resultsCount: (n: number) => (n === 1 ? '1 item exibido' : `${n} itens exibidos`),
     glance: 'EM POUCAS PALAVRAS',
     notFoundTitle: 'Este caminho não levou a uma página.',
     notFoundText: 'Você pode voltar ao início ou explorar o lab.',
@@ -234,16 +254,17 @@ export const ui = {
     privacy: 'Privacidade',
     consent: {
       title: 'Cookies neste site',
-      text: 'Uso cookies para entender como o site é usado e, no futuro, medir campanhas. Nada é gravado até você escolher.',
+      text: 'Cookies opcionais ajudam a entender quais análises são mais úteis. Nada é gravado até você escolher.',
       more: 'Aviso de privacidade',
       analytics: 'Análise',
       analyticsHint: 'Google Analytics e Microsoft Clarity: visitas, cliques e rolagem.',
       ads: 'Marketing',
-      adsHint: 'Plataformas de anúncio como Google Ads, Meta e LinkedIn: resultado de campanhas.',
-      choose: 'Escolher',
+      adsHint: 'Medição de campanhas caso anúncios sejam ativados no futuro.',
+      choose: 'Personalizar',
       accept: 'Aceitar todos',
       reject: 'Recusar todos',
       save: 'Salvar escolha',
+      close: 'Fechar diálogo de cookies',
       settings: 'Preferências de cookies',
     },
   },

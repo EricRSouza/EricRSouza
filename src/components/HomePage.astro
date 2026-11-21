@@ -19,11 +19,11 @@ const article = posts.find((p) => p.data.type === 'article' && p.data.featured);
 const localHref = (href: string) => (href.startsWith('#') ? href : path(lang, href));
 ---
 
-<Base lang={lang} title={t.homeTitle}>
+<Base lang={lang} title={t.homeTitle} alternate={path(lang === 'en' ? 'pt' : 'en')}>
   <section class="hero">
     <div class="container hero-grid">
       <div class="hero-copy">
-        <p class="eyebrow"><span class="eyebrow-dot"></span>{t.eyebrow}</p>
+        <p class="eyebrow"><span class="eyebrow-dot" aria-hidden="true"></span>{t.eyebrow}</p>
         <h1>{t.hero[0]}<br />{t.hero[1]}<br /><em>{t.hero[2]}</em></h1>
         <p class="hero-description">{t.intro}</p>
         <div class="hero-actions">
@@ -34,18 +34,13 @@ const localHref = (href: string) => (href.startsWith('#') ? href : path(lang, hr
       </div>
       <div class="hero-art">
         <div class="chart-window">
-          <div class="window-bar">
-            <span class="window-dots"><i></i><i></i><i></i></span>
-            <span>DATA / INSIGHTS</span>
-            <span>↗</span>
-          </div>
-          <RevenueChart locale={lang} compact />
+          <RevenueChart client:idle locale={lang} compact />
           <a class="chart-window-footer" href={path(lang, '/blog/revenue-grew/')}>
             <span>{t.heroWindow}</span>
             <Arrow />
           </a>
         </div>
-        <div class="hero-caption"><span class="caption-line"></span>{t.heroCaption}</div>
+        <div class="hero-caption"><span class="caption-line" aria-hidden="true"></span>{t.heroCaption}</div>
       </div>
     </div>
     <div class="container expertise-bar">

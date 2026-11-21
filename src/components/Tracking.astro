@@ -16,8 +16,15 @@ const { lang } = Astro.props;
 const t = ui[lang].consent;
 ---
 
-<section class="consent" id="consent" role="dialog" aria-labelledby="consent-title" hidden>
-  <h2 id="consent-title">{t.title}</h2>
+<section class="consent" id="consent" role="dialog" aria-labelledby="consent-title" tabindex="-1" hidden>
+  <div class="consent-header">
+    <h2 id="consent-title">{t.title}</h2>
+    <button type="button" class="consent-close" data-consent="close" aria-label={t.close}>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M6 6 18 18M18 6 6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+      </svg>
+    </button>
+  </div>
   <p>{t.text} <a href={path(lang, '/privacy/')}>{t.more}</a></p>
   <details>
     <summary>{t.choose}</summary>
@@ -67,12 +74,22 @@ const t = ui[lang].consent;
 
   const banner = document.getElementById('consent')!;
   const box = (name: keyof Choice) => banner.querySelector<HTMLInputElement>(`input[name="${name}"]`)!;
+  let lastTrigger: HTMLElement | null = null;
 
-  function open(choice: Choice | null) {
+  function open(choice: Choice | null, trigger: HTMLElement | null = null) {
+    lastTrigger = trigger;
     box('analytics').checked = choice?.analytics ?? false;
     box('ads').checked = choice?.ads ?? false;
     banner.querySelector('details')!.open = Boolean(choice);
     banner.hidden = false;
+    if (trigger) banner.focus();
+  }
+
+  function close() {
+    banner.hidden = true;
+    const target = lastTrigger;
+    lastTrigger = null;
+    target?.focus();
   }
 
   function save(choice: Choice) {
@@ -84,7 +101,7 @@ const t = ui[lang].consent;
     stored = choice;
     gtag('consent', 'update', googleConsent(choice));
     dataLayer.push({ event: 'consent_update', ...layerConsent(choice) });
-    banner.hidden = true;
+    close();
   }
 
   banner.addEventListener('click', (event) => {
@@ -92,13 +109,19 @@ const t = ui[lang].consent;
     if (action === 'accept') save({ analytics: true, ads: true });
     if (action === 'reject') save({ analytics: false, ads: false });
     if (action === 'save') save({ analytics: box('analytics').checked, ads: box('ads').checked });
+    if (action === 'close') close();
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && !banner.hidden) close();
   });
 
   if (!stored) open(null);
 
   document.addEventListener('click', (event) => {
     const target = event.target as Element;
-    if (target.closest('[data-consent-open]')) return open(stored);
+    const trigger = target.closest<HTMLElement>('[data-consent-open]');
+    if (trigger) return open(stored, trigger);
 
     const el = target.closest<HTMLElement>('[data-track]');
     if (!el) return;

@@ -13,26 +13,88 @@ interface Props {
 
 const { src, title, lang } = Astro.props;
 const text = {
-  en: { load: 'Load the interactive report', note: 'Power BI report · synthetic data · loads from Microsoft' },
-  pt: { load: 'Carregar o relatório interativo', note: 'Relatório Power BI · dados sintéticos · carregado da Microsoft' },
+  en: {
+    load: 'Load interactive report',
+    fullscreen: 'Open full screen',
+    loading: 'Loading Power BI report from Microsoft…',
+    note: 'Power BI report · synthetic data · loads from Microsoft',
+    views: ['Financial analysis', 'Sales teams', 'What-if simulation', 'Cross-sell'],
+  },
+  pt: {
+    load: 'Carregar relatório interativo',
+    fullscreen: 'Abrir em tela cheia',
+    loading: 'Carregando relatório do Power BI…',
+    note: 'Relatório Power BI · dados sintéticos · carregado da Microsoft',
+    views: ['Análise financeira', 'Vendedores', 'Simulação', 'Cross-sell'],
+  },
 }[lang];
 ---
 
 <figure class="pbi-embed">
-  <div class="pbi-frame" data-src={src} data-title={title}>
-    <button type="button" class="button">{text.load}</button>
+  <div class="pbi-frame" data-src={src} data-title={title} data-loading={text.loading}>
+    <div class="pbi-preview" aria-hidden="true">
+      <div class="pbi-preview-tabs">
+        {text.views.map((view, idx) => <span class={idx === 0 ? 'is-active' : undefined}>{view}</span>)}
+      </div>
+      <div class="pbi-preview-kpis">
+        <div class="pbi-preview-kpi"><i></i><b></b></div>
+        <div class="pbi-preview-kpi"><i></i><b></b></div>
+        <div class="pbi-preview-kpi"><i></i><b></b></div>
+      </div>
+      <div class="pbi-preview-charts">
+        <svg viewBox="0 0 260 88" fill="none">
+          <rect x="8" y="48" width="22" height="32" rx="2" fill="#9fb9cb" />
+          <rect x="42" y="34" width="22" height="46" rx="2" fill="#9fb9cb" />
+          <rect x="76" y="42" width="22" height="38" rx="2" fill="#9fb9cb" />
+          <rect x="110" y="24" width="22" height="56" rx="2" fill="#1f6a8d" />
+          <rect x="144" y="30" width="22" height="50" rx="2" fill="#9fb9cb" />
+          <rect x="178" y="14" width="22" height="66" rx="2" fill="#0b1f3b" />
+          <rect x="212" y="20" width="22" height="60" rx="2" fill="#1f6a8d" />
+        </svg>
+        <div class="pbi-preview-rows">
+          <span style="width:88%"></span>
+          <span style="width:72%"></span>
+          <span style="width:61%"></span>
+          <span style="width:45%"></span>
+        </div>
+      </div>
+    </div>
+    <div class="pbi-overlay">
+      <button type="button" class="button" data-pbi-load>{text.load}</button>
+      <a class="button small ghost" href={src} target="_blank" rel="noopener noreferrer">{text.fullscreen}</a>
+    </div>
+    <p class="pbi-status" role="status" aria-live="polite" hidden></p>
   </div>
-  <figcaption>{text.note} · <a href={src} target="_blank" rel="noopener noreferrer">{lang === 'pt' ? 'Abrir em tela cheia' : 'Open full screen'}</a></figcaption>
+  <figcaption>{text.note} · <a href={src} target="_blank" rel="noopener noreferrer">{text.fullscreen}</a></figcaption>
 </figure>
 
 <script>
   for (const frame of document.querySelectorAll<HTMLElement>('.pbi-frame')) {
-    frame.querySelector('button')?.addEventListener('click', () => {
+    const button = frame.querySelector<HTMLButtonElement>('[data-pbi-load]');
+    const overlay = frame.querySelector<HTMLElement>('.pbi-overlay');
+    const status = frame.querySelector<HTMLElement>('.pbi-status');
+    button?.addEventListener('click', () => {
+      if (overlay) overlay.hidden = true;
+      if (status) {
+        status.textContent = frame.dataset.loading ?? 'Loading…';
+        status.hidden = false;
+      }
       const iframe = document.createElement('iframe');
       iframe.src = frame.dataset.src ?? '';
       iframe.title = frame.dataset.title ?? 'Power BI report';
       iframe.allowFullscreen = true;
-      frame.replaceChildren(iframe);
+      iframe.referrerPolicy = 'strict-origin-when-cross-origin';
+      iframe.tabIndex = -1;
+      iframe.addEventListener(
+        'load',
+        () => {
+          if (status) status.hidden = true;
+          frame.querySelector('.pbi-preview')?.remove();
+          iframe.focus();
+        },
+        { once: true },
+      );
+      frame.append(iframe);
     });
   }
 </script>

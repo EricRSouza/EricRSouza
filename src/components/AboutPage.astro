@@ -15,7 +15,7 @@ type Text = Record<Lang, string>;
 const experience: { period: string; role: Text; org: string; summary: Text }[] = [
   {
     period: '2023 –',
-    role: { en: 'Senior Business Intelligence Analyst', pt: 'Senior Business Intelligence Analyst' },
+    role: { en: 'Senior Business Intelligence Analyst', pt: 'Analista Sênior de Business Intelligence' },
     org: 'NTT DATA Europe & Latam',
     summary: {
       en: 'Data consultant on large client projects. For Anheuser-Busch InBev, I structure marketing and finance data (orders, customer behaviour, campaigns, recommendations) and build the dashboards teams use to track them. Before that, for Visa, I mapped every card process at Banco XP and built the data structure and dashboards behind them: card delivery, benefits usage, declined purchases, chargebacks, the fraud engine, credit and debt renegotiation.',
@@ -24,7 +24,7 @@ const experience: { period: string; role: Text; org: string; summary: Text }[] =
   },
   {
     period: '2022 – 2023',
-    role: { en: 'Business Intelligence Analyst', pt: 'Business Intelligence Analyst' },
+    role: { en: 'Business Intelligence Analyst', pt: 'Analista de Business Intelligence' },
     org: 'Grupo Senff',
     summary: {
       en: 'Mentored junior analysts, managed data across several databases and data lakes, migrated the company’s dashboards to Power BI, extracted data from REST APIs and set up a standard for documentation.',
@@ -33,7 +33,7 @@ const experience: { period: string; role: Text; org: string; summary: Text }[] =
   },
   {
     period: '2020 – 2022',
-    role: { en: 'Business Intelligence Analyst', pt: 'Business Intelligence Analyst' },
+    role: { en: 'Business Intelligence Analyst', pt: 'Analista de Business Intelligence' },
     org: 'Aura Pharma',
     summary: {
       en: 'Built ETL from unstructured sources of patient data, plus data models, KPIs and automated reports that improved customer experience and retention. Also ran the company’s websites and e-commerce projects with Scrum and Kanban.',
@@ -108,7 +108,7 @@ const text = {
 
     <div class="case-grid">
       <aside>
-        <p class="tiny-label">{text.helpTitle}</p>
+        <h2 class="tiny-label about-subhead">{text.helpTitle}</h2>
         <dl>
           {
             text.help.map(([term, desc]) => (
@@ -123,14 +123,14 @@ const text = {
         </dl>
       </aside>
       <div>
-        <p class="eyebrow">{text.expTitle}</p>
+        <h2 class="eyebrow about-subhead">{text.expTitle}</h2>
         <ol class="timeline">
           {
             experience.map((job) => (
               <li>
                 <span class="timeline-period">{job.period}</span>
                 <div>
-                  <h2>{job.role[lang]}</h2>
+                  <h3>{job.role[lang]}</h3>
                   {job.org && <p class="timeline-org">{job.org}</p>}
                   <p>{job.summary[lang]}</p>
                 </div>

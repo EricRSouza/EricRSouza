@@ -25,7 +25,7 @@ const { title, description, date, kicker, media, glance, type } = post.data;
 const project = type === 'project';
 const back = project
   ? { href: `${path(lang, '/blog/')}?type=project`, label: t.typesPlural.project }
-  : { href: path(lang, '/blog/'), label: 'Blog' };
+  : { href: path(lang, '/blog/'), label: t.nav.blog };
 const missingTranslation = ui[lang === 'en' ? 'pt' : 'en'].noTranslation;
 ---
 
@@ -53,7 +53,7 @@ const missingTranslation = ui[lang === 'en' ? 'pt' : 'en'].noTranslation;
                 </>
               ))}
               <dt>{lang === 'pt' ? 'Publicado' : 'Published'}</dt>
-              <dd><time datetime={date.toISOString()}>{formatDate(date)}</time></dd>
+              <dd><time datetime={date.toISOString()}>{formatDate(date, lang)}</time></dd>
             </dl>
           </aside>
           <div class="case-body">
@@ -72,7 +72,7 @@ const missingTranslation = ui[lang === 'en' ? 'pt' : 'en'].noTranslation;
             <span class="author-avatar">ER</span>
             <span>Eric Ramos Souza</span>
             <span>·</span>
-            <time datetime={date.toISOString()}>{formatDate(date)}</time>
+            <time datetime={date.toISOString()}>{formatDate(date, lang)}</time>
           </div>
           {!translation && <p class="translation-note">{missingTranslation}</p>}
         </header>
